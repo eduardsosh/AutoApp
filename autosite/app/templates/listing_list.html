@@ -1,0 +1,17 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h2>All Listings</h2>
+  {% for listing in listings %}
+    <div>
+      <h3>{{ listing.Name }}</h3>
+      <p>{{ listing.Description }}</p>
+      <p>Price: {{ listing.Price }}</p>
+      <p>Mileage: {{ listing.Mileage }}</p>
+      <p>Location: {{ listing.Location }}</p>
+      <!-- Add more fields as needed -->
+    </div>
+  {% empty %}
+    <p>No listings found.</p>
+  {% endfor %}
+{% endblock %}
