@@ -22,3 +22,7 @@ class ListingCreationForm(forms.Form):
     Name = forms.CharField(max_length=50)
     
     image = forms.ImageField()
+    
+
+
+        

@@ -26,4 +26,11 @@ class Listing(models.Model):
 class Image(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='listing_images/')
+
+    def delete(self, *args, **kwargs):
+        print("Deleting image:", self.image.path)
+        storage, path = self.image.storage, self.image.path
+        super(Image, self).delete(*args, **kwargs)
+        storage.delete(path)
+
     

@@ -5,7 +5,7 @@ from .models import Car, Listing, Image
 from .forms import ListingCreationForm
 
 def index(request):
-    return render(request, 'listing_list.html', {})
+    return redirect('listing_list')
 # Create your views here.
 def market(request):
     return render(request, 'market.html', {})
@@ -51,5 +51,13 @@ def create_listing(request):
 
 
 def listing_list(request):
-    listings = Listing.objects.all()
+    listings = Listing.objects.all().prefetch_related('image_set')
     return render(request, 'listing_list.html', {'listings': listings})
+
+def delete_all_listings(request):
+    listings = Listing.objects.all()
+    for listing in listings:
+        for image in listing.image_set.all():
+            image.delete()
+        listing.delete()
+    return redirect('listing_list')

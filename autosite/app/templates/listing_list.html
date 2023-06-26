@@ -2,13 +2,27 @@
 
 {% block content %}
   <h2>All Listings</h2>
+
+  <!-- delete all listings-->
+  <form method="post" action="{% url 'delete_listing' %}">
+    {% csrf_token %}
+    <input type="submit" value="Delete All Listings" />
+</form>
+
+
+
   {% for listing in listings %}
-    <div>
+    <div class="listing_item">
       <h3>{{ listing.Name }}</h3>
       <p>{{ listing.Description }}</p>
       <p>Price: {{ listing.Price }}</p>
       <p>Mileage: {{ listing.Mileage }}</p>
       <p>Location: {{ listing.Location }}</p>
+
+      <!-- Add images -->
+      {% for image in listing.image_set.all %}
+        <img src="{{ image.image.url }}" alt="Listing image">
+      {% endfor %}
       <!-- Add more fields as needed -->
     </div>
   {% empty %}
