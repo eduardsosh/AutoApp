@@ -7,7 +7,8 @@ def index(request):
     return render(request, 'base.html', {})
 # Create your views here.
 
-
+def market(request):
+    return render(request, 'market.html', {})
 
 
 
