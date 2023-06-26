@@ -24,6 +24,6 @@ class Listing(models.Model):
     Name = models.CharField(max_length=50)
     
 class Image(models.Model):
-    #Listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='listing_images/')
     

@@ -5,5 +5,6 @@ from .views import *
 urlpatterns = [
     path('', views.index, name='index'),
     path('market/', views.market, name='market'),
-    path('upload/', image_upload_view, name='image_upload'),
+    path('create_listing/', views.create_listing, name='create_listing'),
+    path('listings/', views.listing_list, name='listing_list'),
 ]
