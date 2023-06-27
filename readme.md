@@ -18,3 +18,8 @@ In `AutoApp\autosite\` run `python manage.py --migrate`
 
 ###### Now run server
 In `\AutoApp\autosite` run `python manage.py --runserver`
+<br>
+<br>
+### Populating the database
+Running `python manage.py your_command` will populate the database <br>
+with the first page of vehicles and their thumbnail images in the set make of the vehicle.
