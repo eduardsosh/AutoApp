@@ -1,9 +1,11 @@
 {% extends 'base_generic.html' %}
+{% load i18n %}
 
-{% block title %}Rediģēt profilu{% endblock %}
+
+{% block title %}{% trans "Rediģēt profilu" %}{% endblock %}
 
 {% block content %}
-  <h2>Rediģēt</h2>
+  <h2>{% trans "Rediģēt profilu" %}</h2>
   <form method="post">
   {% csrf_token %}
   {{ form.non_field_errors }}
@@ -19,6 +21,6 @@
         {% endfor %}
     </p>
   {% endfor %}
-  <button type="submit">Atjaunot</button>
+  <button type="submit">{% trans "Mainīt" %}</button>
   </form>
 {% endblock %}

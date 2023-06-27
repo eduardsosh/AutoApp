@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 {% load static %}
+{% load i18n %}
+
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -18,13 +21,13 @@
       <div class="nav-left">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'index' %}">Sludinajumi</a>
+            <a class="nav-link" href="{% url 'index' %}">{% trans "Sludinajumi" %}</a>
           </li>
           <li class="nav-item">
             {% if user.is_authenticated %}
-                <a class="nav-link" href="{% url 'create_listing' %}">Ielikt sludinājumu</a>
+                <a class="nav-link" href="{% url 'create_listing' %}">{% trans "Ielikt sludinājumu" %}</a>
             {% else %}
-                <a class="nav-link" href="{% url 'login' %}">Ielikt sludinājumu</a>
+                <a class="nav-link" href="{% url 'login' %}">{% trans "Ielikt sludinājumu" %}</a>
             {% endif %}
           </li>
         </ul>
@@ -34,26 +37,40 @@
           <!-- Add more navigation items here -->
           {% if user.is_authenticated %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'logout' %}">Sign Out</a>
+              <a class="nav-link" href="{% url 'logout' %}">{% trans "Iziet" %}</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'edit_user' %}">{{ user.username }}</a>
             </li>
           {% else %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'login' %}">Login</a>
+              <a class="nav-link" href="{% url 'login' %}">{% trans "Ieiet" %}</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'register' %}">Register</a>
+              <a class="nav-link" href="{% url 'register' %}">{% trans "Reģistrēties" %}</a>
             </li>
           {% endif %}
+          <li class="nav-item">
+            <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+              <input name="next" type="hidden" value="{{ listing_list }}" />
+              <select name="language">
+                {% get_current_language as LANGUAGE_CODE %}
+                {% get_available_languages as LANGUAGES %}
+                {% get_language_info_list for LANGUAGES as languages %}
+                {% for language in languages %}
+                <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %}selected{% endif %}>
+                  {{ language.name_local }} ({{ language.code }})
+                </option>
+                {% endfor %}
+              </select>
+              <input type="submit" value="Go" />
+            </form>
+          </li>
         </ul>
       </div>
     </nav>
   </header>
   
-  
-
     <main>
         <div class="container">
         {% block content %}

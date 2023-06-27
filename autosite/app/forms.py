@@ -10,36 +10,36 @@ from django.utils.translation import gettext_lazy as _
 
 class ListingCreationForm(forms.Form):
     FUEL_CHOICES = [
-        ('benzīns', 'Benzīns'),
-        ('dīzelis', 'Dīzelis'),
-        ('elektrība', 'Elektrība'),
-        ('benzīns/gāze', 'Benzīns/gāze'),
-        ('hibrīds', 'Hibrīds')
+        ('benzīns', _('Benzīns')),
+        ('dīzelis', _('Dīzelis')),
+        ('elektrība', _('Elektrība')),
+        ('benzīns/gāze', _('Benzīns/gāze')),
+        ('hibrīds', _('Hibrīds'))
         # Add more options here if necessary
     ]
-    
-    GEARBOX_CHOICES = [
-        ('automāts', 'Automāts'),
-        ('manuāla', 'Manuāla'),]
-    
-    Make = forms.CharField(max_length=50)
-    Model = forms.CharField(max_length=50)
-    Year = forms.IntegerField()
-    Fuel = forms.ChoiceField(choices=FUEL_CHOICES)
-    Engine_cc = forms.IntegerField()
-    Gearbox = forms.ChoiceField(choices=GEARBOX_CHOICES)
-    Color = forms.CharField(max_length=50)
 
-    Price = forms.IntegerField()
-    Mileage = forms.IntegerField()
-    Description = forms.CharField(widget=forms.Textarea)
-    Phone = forms.CharField(max_length=50)
-    Email = forms.CharField(max_length=50)
-    image = forms.ImageField()
+    GEARBOX_CHOICES = [
+        ('automāts', _('Automāts')),
+        ('manuāla', _('Manuāla')),
+    ]
     
-    
+    Make = forms.CharField(max_length=50, label=_('Marka'))
+    Model = forms.CharField(max_length=50, label=_('Modelis'))
+    Year = forms.IntegerField(label=_('Gads'))
+    Fuel = forms.ChoiceField(choices=FUEL_CHOICES, label=_('Degviela'))
+    Engine_cc = forms.IntegerField(label=_('Motora tilpums'))
+    Gearbox = forms.ChoiceField(choices=GEARBOX_CHOICES, label=_('Ātrumkārba'))
+    Color = forms.CharField(max_length=50, label=_('Krāsa'))
+
+    Price = forms.IntegerField(label=_('Cena'))
+    Mileage = forms.IntegerField(label=_('Nobraukums'))
+    Description = forms.CharField(widget=forms.Textarea, label=_('Apraksts'))
+    Phone = forms.CharField(max_length=50, label=_('Tel. nr.'))
+    Email = forms.CharField(max_length=50, label=_('Epasts'))
+    image = forms.ImageField(label=_('Attēls'))
+
 class RegistrationForm(UserCreationForm):
-    email = forms.EmailField(required=True, label=_('Email Address'))
+    email = forms.EmailField(required=True, label=_('Epasta adrese'))
 
     password1 = forms.CharField(
         label=_("Parole"),

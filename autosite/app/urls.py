@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path , include
 from . import views
 from .views import *
 
@@ -12,4 +12,5 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('edit_user/', views.edit_user, name='edit_user'),
+    path('i18n/', include('django.conf.urls.i18n')),  # Django's i18n URLs
 ]

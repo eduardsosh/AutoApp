@@ -1,15 +1,15 @@
 {% extends 'base_generic.html' %}
-
+{% load i18n %}
 {% block content %}
-  <h2>Visi sludinājumi</h2>
+  <h2>{% trans "Visi sludinājumi" %}</h2>
 
 
 {% for listing in listings %}
   <div class="listing_item">
     <a href="{{ listing.Link }}">
       <h3>{{ listing.Car.Make }} {{ listing.Car.Model }}</h3>
-      <p>Cena: {{ listing.Price }}</p>
-      <p>Nobraukums: {{ listing.Mileage }}</p>
+      <p>{% trans "Cena" %}: {{ listing.Price }}</p>
+      <p>{% trans "Nobraukums" %}: {{ listing.Mileage }}</p>
 
 
       <!-- Add images -->
@@ -20,7 +20,7 @@
     </a>
     </div>
   {% empty %}
-    <p>Nav atrasts neviens sludinājums</p>
+    <p>{% trans "Nav atrasts neviens sludinājums" %}</p>
   {% endfor %}
 
   {% for item in listings %}
@@ -31,17 +31,17 @@
 <div class="pagination">
     <span class="step-links">
         {% if listings.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ listings.previous_page_number }}">previous</a>
+            <a href="?page=1">&laquo; {% trans "Pirmā" %}</a>
+            <a href="?page={{ listings.previous_page_number }}">{% trans "Iepriekšējā" %}</a>
         {% endif %}
 
         <span class="current">
-            Lapa {{ listings.number }} no {{ listings.paginator.num_pages }}.
+          {% trans "Lapa" %} {{ listings.number }} {% trans "no" %} {{ listings.paginator.num_pages }}.
         </span>
 
         {% if listings.has_next %}
-            <a href="?page={{ listings.next_page_number }}">nākamā</a>
-            <a href="?page={{ listings.paginator.num_pages }}">iepriekšējā &raquo;</a>
+            <a href="?page={{ listings.next_page_number }}">{% trans "Nākamā" %}</a>
+            <a href="?page={{ listings.paginator.num_pages }}">{% trans "Iepriekšējā" %} &raquo;</a>
         {% endif %}
     </span>
 </div>

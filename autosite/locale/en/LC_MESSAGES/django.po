@@ -1,0 +1,212 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-06-27 23:09+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: .\app\forms.py:13
+msgid "Benzīns"
+msgstr "Petrol"
+
+#: .\app\forms.py:14
+msgid "Dīzelis"
+msgstr "Diesel"
+
+#: .\app\forms.py:15
+msgid "Elektrība"
+msgstr "Electric"
+
+#: .\app\forms.py:16
+msgid "Benzīns/gāze"
+msgstr "Petrol/LPG"
+
+#: .\app\forms.py:17
+msgid "Hibrīds"
+msgstr "Hybrid"
+
+#: .\app\forms.py:22
+msgid "Automāts"
+msgstr "Automatic"
+
+#: .\app\forms.py:23
+msgid "Manuāla"
+msgstr "Manual"
+
+#: .\app\forms.py:26
+msgid "Marka"
+msgstr "Make"
+
+#: .\app\forms.py:27
+msgid "Modelis"
+msgstr "Model"
+
+#: .\app\forms.py:28
+msgid "Gads"
+msgstr "Year"
+
+#: .\app\forms.py:29
+msgid "Degviela"
+msgstr "Fuel type"
+
+#: .\app\forms.py:30
+msgid "Motora tilpums"
+msgstr "Displacement"
+
+#: .\app\forms.py:31
+msgid "Ātrumkārba"
+msgstr "Gearbox"
+
+#: .\app\forms.py:32
+msgid "Krāsa"
+msgstr "Color"
+
+#: .\app\forms.py:34 .\app\templates\listing_list.html:11
+msgid "Cena"
+msgstr "Price"
+
+#: .\app\forms.py:35 .\app\templates\listing_list.html:12
+msgid "Nobraukums"
+msgstr "Milage"
+
+#: .\app\forms.py:36
+msgid "Apraksts"
+msgstr "Description"
+
+#: .\app\forms.py:37
+msgid "Tel. nr."
+msgstr "Phone"
+
+#: .\app\forms.py:38
+msgid "Epasts"
+msgstr "Email"
+
+#: .\app\forms.py:39
+msgid "Attēls"
+msgstr "Image"
+
+#: .\app\forms.py:42
+msgid "Epasta adrese"
+msgstr "Email"
+
+#: .\app\forms.py:45 .\app\forms.py:66
+msgid "Parole"
+msgstr "Password"
+
+#: .\app\forms.py:48
+msgid "Ievadiet drošu paroli!"
+msgstr "Enter a safe password"
+
+#: .\app\forms.py:52 .\app\forms.py:67
+msgid "Parole vēlreiz"
+msgstr "Repeat your password"
+
+#: .\app\forms.py:55
+msgid "Ievadiet paroli vēlreiz!"
+msgstr "Repeat your password"
+
+#: .\app\forms.py:62
+msgid "Lietotājvārds"
+msgstr "Username"
+
+#: .\app\forms.py:63
+msgid "E-pasts"
+msgstr "Email"
+
+#: .\app\forms.py:64
+msgid "Vārds"
+msgstr "First name"
+
+#: .\app\forms.py:65
+msgid "Uzvārds"
+msgstr "Last name"
+
+#: .\app\templates\base_generic.html:24
+msgid "Sludinajumi"
+msgstr "Listings"
+
+#: .\app\templates\base_generic.html:28 .\app\templates\base_generic.html:30
+msgid "Ielikt sludinājumu"
+msgstr "Create a listing"
+
+#: .\app\templates\base_generic.html:40
+msgid "Iziet"
+msgstr "Sign out"
+
+#: .\app\templates\base_generic.html:47 .\app\templates\login.html:4
+#: .\app\templates\login.html:8
+msgid "Ieiet"
+msgstr "Log in"
+
+#: .\app\templates\base_generic.html:50 .\app\templates\register.html:4
+#: .\app\templates\register.html:20
+msgid "Reģistrēties"
+msgstr "Register"
+
+#: .\app\templates\create_listing.html:6
+msgid "Izveidot sludinājumu"
+msgstr "Create a listing"
+
+#: .\app\templates\create_listing.html:10
+msgid "Izveidot"
+msgstr "Create"
+
+#: .\app\templates\edit_profile.html:5 .\app\templates\edit_profile.html:8
+msgid "Rediģēt profilu"
+msgstr "Edit profile"
+
+#: .\app\templates\edit_profile.html:24
+msgid "Mainīt"
+msgstr "Change"
+
+#: .\app\templates\image_upload.html:7
+msgid "Augšuplādēt"
+msgstr "Upload"
+
+#: .\app\templates\listing_list.html:4
+msgid "Visi sludinājumi"
+msgstr "All listings"
+
+#: .\app\templates\listing_list.html:23
+msgid "Nav atrasts neviens sludinājums"
+msgstr "No listings found"
+
+#: .\app\templates\listing_list.html:34
+msgid "Pirmā"
+msgstr "First"
+
+#: .\app\templates\listing_list.html:35 .\app\templates\listing_list.html:44
+msgid "Iepriekšējā"
+msgstr "Previous"
+
+#: .\app\templates\listing_list.html:39
+msgid "Lapa"
+msgstr "Page"
+
+#: .\app\templates\listing_list.html:39
+msgid "no"
+msgstr "of"
+
+#: .\app\templates\listing_list.html:43
+msgid "Nākamā"
+msgstr "Next"
+
+#: .\autosite\settings.py:130
+msgid "Latvian"
+msgstr "Latvian"
+
+#: .\autosite\settings.py:131
+msgid "English"
+msgstr "English"

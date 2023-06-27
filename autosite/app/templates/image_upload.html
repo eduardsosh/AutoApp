@@ -1,8 +1,10 @@
 <!-- image_upload.html -->
+{% load i18n %}
+
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Upload</button>
+    <button type="submit">{% trans "Augšuplādēt" %}</button>
   </form>
   
   {% if img_obj %}
