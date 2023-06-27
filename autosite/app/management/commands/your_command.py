@@ -11,9 +11,18 @@ from django.core.files.storage import default_storage
 class Command(BaseCommand):
     help = 'Scrape car data and insert into database'
 
+    def add_arguments(self, parser):
+        # Positional arguments
+        parser.add_argument('url', type=str, help='URL of make page')
+        parser.add_argument('make', type=str, help='Make of the car')
+
+
     def handle(self, *args, **options):
-        url = "https://www.ss.com/lv/transport/cars/audi/"
-        all_car_data = self.run_scraper(url)  # Make sure run_scraper returns a list of car data
+        
+        #url = "https://www.ss.com/lv/transport/cars/audi/"
+        self.url = options['url']
+        self.make = options['make']
+        all_car_data = self.run_scraper(self.url)  # Make sure run_scraper returns a list of car data
         
         for car_data in all_car_data:
             self.insert_into_database(car_data)
@@ -22,13 +31,13 @@ class Command(BaseCommand):
     def insert_into_database(self, car_data):
         # Create a new Car object
         car = Car(
-            Make='Audi',
-            Model=car_data['model'],
-            Year=car_data['year'],
-            Fuel=car_data['fuel'],
-            Engine_cc=car_data['displacement'],
-            Gearbox=car_data['gearbox'],
-            Color=car_data['color']
+            Make=self.make,
+            Model=car_data['model'] if car_data['model'] is not None else "None",  # Default value of "None" if model is None
+            Year=car_data['year'] if car_data['year'] is not None else 0,  # Default value of 0 if year is None
+            Fuel=car_data['fuel'] if car_data['fuel'] is not None else "None",  # Default value of "None" if fuel is None
+            Engine_cc=car_data['displacement'] if car_data['displacement'] is not None else 0,  # Default value of 0 if displacement is None
+            Gearbox=car_data['gearbox'] if car_data['gearbox'] is not None else "None",  # Default value of "None" if gearbox is None
+            Color=car_data['color'] if car_data['color'] is not None else "None"  # Default value of "None" if color is None
         )
         car.save()  # Insert the car into the database
 
@@ -64,7 +73,7 @@ class Command(BaseCommand):
         car_data = {}
 
         model = soup.find("td", {"id": "tdo_31"})
-        car_data["model"] = model.text.replace("Audi", "") if model else None
+        car_data["model"] = model.text.replace(self.make, "") if model else None
         
         year = soup.find("td", {"id": "tdo_18"})
         car_data["year"] = year.text[:4] if year else None
