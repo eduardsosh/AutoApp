@@ -18,3 +18,9 @@ In `AutoApp\autosite\` run `python manage.py --migrate`
 
 ###### Now run server
 In `\AutoApp\autosite` run `python manage.py --runserver`
+<br>
+<br>
+### Populating the database
+Running `python manage.py your_command <url> <make>` will populate the database <br>
+For example bmw would be: `python manage.py your_command https://www.ss.com/lv/transport/cars/bmw/ Bmw`
+

@@ -55,9 +55,14 @@ def listing_list(request):
     return render(request, 'listing_list.html', {'listings': listings})
 
 def delete_all_listings(request):
+    cars = Car.objects.all()
     listings = Listing.objects.all()
     for listing in listings:
         for image in listing.image_set.all():
             image.delete()
         listing.delete()
+        
+    for car in cars:
+        car.delete()
+        
     return redirect('listing_list')
