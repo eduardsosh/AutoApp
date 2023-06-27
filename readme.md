@@ -21,5 +21,6 @@ In `\AutoApp\autosite` run `python manage.py --runserver`
 <br>
 <br>
 ### Populating the database
-Running `python manage.py your_command` will populate the database <br>
-with the first page of vehicles and their thumbnail images in the set make of the vehicle.
+Running `python manage.py your_command <url> <make>` will populate the database <br>
+For example bmw would be: `python manage.py your_command https://www.ss.com/lv/transport/cars/bmw/ Bmw`
+
