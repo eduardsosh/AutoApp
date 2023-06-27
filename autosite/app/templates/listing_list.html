@@ -1,22 +1,15 @@
 {% extends 'base_generic.html' %}
 
 {% block content %}
-  <h2>All Listings</h2>
-
-  <!-- delete all listings-->
-  <form method="post" action="{% url 'delete_listing' %}">
-    {% csrf_token %}
-    <input type="submit" value="Delete All Listings" />
-</form>
-
+  <h2>Visi sludinājumi</h2>
 
 
 {% for listing in listings %}
   <div class="listing_item">
     <a href="{{ listing.Link }}">
       <h3>{{ listing.Car.Make }} {{ listing.Car.Model }}</h3>
-      <p>Price: {{ listing.Price }}</p>
-      <p>Mileage: {{ listing.Mileage }}</p>
+      <p>Cena: {{ listing.Price }}</p>
+      <p>Nobraukums: {{ listing.Mileage }}</p>
 
 
       <!-- Add images -->
@@ -27,7 +20,7 @@
     </a>
     </div>
   {% empty %}
-    <p>No listings found.</p>
+    <p>Nav atrasts neviens sludinājums</p>
   {% endfor %}
 
   {% for item in listings %}
@@ -43,12 +36,12 @@
         {% endif %}
 
         <span class="current">
-            Page {{ listings.number }} of {{ listings.paginator.num_pages }}.
+            Lapa {{ listings.number }} no {{ listings.paginator.num_pages }}.
         </span>
 
         {% if listings.has_next %}
-            <a href="?page={{ listings.next_page_number }}">next</a>
-            <a href="?page={{ listings.paginator.num_pages }}">last &raquo;</a>
+            <a href="?page={{ listings.next_page_number }}">nākamā</a>
+            <a href="?page={{ listings.paginator.num_pages }}">iepriekšējā &raquo;</a>
         {% endif %}
     </span>
 </div>

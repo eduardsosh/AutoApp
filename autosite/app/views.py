@@ -5,6 +5,8 @@ from django.http import HttpResponse
 # Database
 from .models import Car, Listing, Image
 from .forms import ListingCreationForm
+from .forms import EditUserForm
+from .forms import RegistrationForm
 
 # Register and Login
 from django.contrib.auth.forms import UserCreationForm
@@ -39,11 +41,11 @@ def create_listing(request):
             Car=car,
             Price=form.cleaned_data['Price'],
             Mileage=form.cleaned_data['Mileage'],
-            Location=form.cleaned_data['Location'],
+            Location="None",
             Description=form.cleaned_data['Description'],
             Phone=form.cleaned_data['Phone'],
             Email=form.cleaned_data['Email'],
-            Name=form.cleaned_data['Name'],
+            Name="None",
         )
 
         for f in request.FILES.getlist('image'):
@@ -85,13 +87,13 @@ def delete_all_listings(request):
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = RegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect('listing_list')  # Redirect to a success page.
     else:
-        form = UserCreationForm()
+        form = RegistrationForm()
     return render(request, 'register.html', {'form': form})
 
 def login_view(request):
@@ -111,3 +113,13 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('listing_list')  # Or specify the name of your home view
+
+def edit_user(request):
+    if request.method == 'POST':
+        form = EditUserForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('listing_list') # Or specify the name of your home view
+    else:
+        form = EditUserForm(instance=request.user)
+    return render(request, 'edit_profile.html', {'form': form})

@@ -1,7 +1,9 @@
 {% extends 'base_generic.html' %}
 
+{% block title %}Rediģēt profilu{% endblock %}
+
 {% block content %}
-  <h2>Register</h2>
+  <h2>Rediģēt</h2>
   <form method="post">
   {% csrf_token %}
   {{ form.non_field_errors }}
@@ -17,6 +19,6 @@
         {% endfor %}
     </p>
   {% endfor %}
-  <button type="submit">Register</button>
+  <button type="submit">Atjaunot</button>
   </form>
 {% endblock %}

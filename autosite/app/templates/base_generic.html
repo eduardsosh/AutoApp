@@ -4,7 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Website</title>
+    {% if title %}
+        <title>{{ title }}</title>
+    {% else %}
+        <title>Sludinājumi</title>
+    {% endif %}
 
     <!-- CSS Files -->
     <link rel="stylesheet" href="{% static 'stylesheet.css' %}">
@@ -17,7 +21,11 @@
             <a class="nav-link" href="{% url 'index' %}">Sludinajumi</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'create_listing' %}">Create Listing</a>
+            {% if user.is_authenticated %}
+                <a class="nav-link" href="{% url 'create_listing' %}">Ielikt sludinājumu</a>
+            {% else %}
+                <a class="nav-link" href="{% url 'login' %}">Ielikt sludinājumu</a>
+            {% endif %}
           </li>
         </ul>
       </div>
@@ -29,7 +37,7 @@
               <a class="nav-link" href="{% url 'logout' %}">Sign Out</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">{{ user.username }}</a>
+              <a class="nav-link" href="{% url 'edit_user' %}">{{ user.username }}</a>
             </li>
           {% else %}
             <li class="nav-item">
