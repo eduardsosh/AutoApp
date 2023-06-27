@@ -62,7 +62,7 @@ def create_listing(request):
 
 def listing_list(request):
     listings = Listing.objects.all().prefetch_related('image_set')
-    paginator = Paginator(listings, 5) # Show 12 objects per page
+    paginator = Paginator(listings, 12) # Show 12 objects per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
