@@ -1,8 +1,15 @@
+# Main views for the app
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
+# Database
 from .models import Car, Listing, Image
 from .forms import ListingCreationForm
+
+# Register and Login
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
 
 def index(request):
     return redirect('listing_list')
@@ -66,3 +73,29 @@ def delete_all_listings(request):
         car.delete()
         
     return redirect('listing_list')
+
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('listing_list')  # Redirect to a success page.
+    else:
+        form = UserCreationForm()
+    return render(request, 'register.html', {'form': form})
+
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('listing_list') # Or specify the name of your home view
+    else:
+        form = AuthenticationForm()
+    return render(request, 'login.html', {'form': form})
