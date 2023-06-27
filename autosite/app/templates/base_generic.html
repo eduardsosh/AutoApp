@@ -13,9 +13,12 @@
     <header>
         <nav>
             <ul>
+                <li><a href="{% url 'index' %}">Sludinajumi</a></li>
                 <li><a href="{% url 'create_listing' %}">Create Listing</a></li>
+                
                 <!-- Add more navigation items here -->
                 {% if user.is_authenticated %}
+                    <li style="float: right;"><a href="{% url 'logout' %}">Sign Out</a></li>
                     <li style="float: right;"><a href="#">{{ user.username }}</a></li>
                 {% else %}
                     <li style="float: right;"><a href="{% url 'login' %}">Login</a></li>
@@ -23,6 +26,7 @@
                 {% endif %}
             </ul>
         </nav>
+        
     </header>
 
     <main>

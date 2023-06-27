@@ -10,6 +10,7 @@ from .forms import ListingCreationForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import logout
 
 def index(request):
     return redirect('listing_list')
@@ -99,3 +100,7 @@ def login_view(request):
     else:
         form = AuthenticationForm()
     return render(request, 'login.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return redirect('listing_list')  # Or specify the name of your home view
