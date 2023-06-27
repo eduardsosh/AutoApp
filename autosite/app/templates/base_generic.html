@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 {% load static %}
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,6 +15,12 @@
             <ul>
                 <li><a href="{% url 'create_listing' %}">Create Listing</a></li>
                 <!-- Add more navigation items here -->
+                {% if user.is_authenticated %}
+                    <li style="float: right;"><a href="#">{{ user.username }}</a></li>
+                {% else %}
+                    <li style="float: right;"><a href="{% url 'login' %}">Login</a></li>
+                    <li style="float: right;"><a href="{% url 'register' %}">Register</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>
