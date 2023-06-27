@@ -12,6 +12,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import logout
 
+from django.core.paginator import Paginator
+
 def index(request):
     return redirect('listing_list')
 # Create your views here.
@@ -60,7 +62,12 @@ def create_listing(request):
 
 def listing_list(request):
     listings = Listing.objects.all().prefetch_related('image_set')
-    return render(request, 'listing_list.html', {'listings': listings})
+    paginator = Paginator(listings, 5) # Show 12 objects per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, 'listing_list.html', {'listings': page_obj})
+    #return render(request, 'listing_list.html', {'listings': listings})
 
 def delete_all_listings(request):
     cars = Car.objects.all()
