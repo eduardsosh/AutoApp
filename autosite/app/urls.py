@@ -13,4 +13,5 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('edit_user/', views.edit_user, name='edit_user'),
     path('i18n/', include('django.conf.urls.i18n')),  # Django's i18n URLs
+    path('listing/<int:id>/', views.listing_detail, name='listing_detail'),
 ]

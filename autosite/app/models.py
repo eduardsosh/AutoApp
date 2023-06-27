@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 
@@ -23,6 +24,9 @@ class Listing(models.Model):
     Email = models.CharField(max_length=50)
     Name = models.CharField(max_length=50)
     Link = models.CharField(max_length=256)
+    
+    def get_absolute_url(self):
+        return reverse('listing_detail', args=[str(self.id)])
     
 class Image(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)

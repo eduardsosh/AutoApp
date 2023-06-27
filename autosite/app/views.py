@@ -24,7 +24,6 @@ def market(request):
 
 
 def create_listing(request):
-    
     form = ListingCreationForm(request.POST, request.FILES)
     if form.is_valid():
         car = Car.objects.create(
@@ -46,7 +45,12 @@ def create_listing(request):
             Phone=form.cleaned_data['Phone'],
             Email=form.cleaned_data['Email'],
             Name="None",
+            Link=""  # Initially set Link to an empty string
         )
+
+        # Set Link to the URL of the listing
+        listing.Link = request.build_absolute_uri(listing.get_absolute_url())
+        listing.save()
 
         for f in request.FILES.getlist('image'):
             Image.objects.create(
@@ -123,3 +127,9 @@ def edit_user(request):
     else:
         form = EditUserForm(instance=request.user)
     return render(request, 'edit_profile.html', {'form': form})
+
+from django.shortcuts import get_object_or_404
+
+def listing_detail(request, id):
+    listing = get_object_or_404(Listing, id=id)
+    return render(request, 'listing_detail.html', {'listing': listing})
