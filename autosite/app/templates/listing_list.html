@@ -11,19 +11,20 @@
 
 
 
-  {% for listing in listings %}
-    <div class="listing_item">
-      <h3>{{ listing.Name }}</h3>
-      <p>{{ listing.Description }}</p>
+{% for listing in listings %}
+  <div class="listing_item">
+    <a href="{{ listing.Link }}">
+      <h3>{{ listing.Car.Make }} {{ listing.Car.Model }}</h3>
       <p>Price: {{ listing.Price }}</p>
       <p>Mileage: {{ listing.Mileage }}</p>
-      <p>Location: {{ listing.Location }}</p>
+
 
       <!-- Add images -->
       {% for image in listing.image_set.all %}
         <img src="{{ image.image.url }}" alt="Listing image">
       {% endfor %}
       <!-- Add more fields as needed -->
+    </a>
     </div>
   {% empty %}
     <p>No listings found.</p>
