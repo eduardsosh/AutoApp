@@ -22,6 +22,7 @@ class Listing(models.Model):
     Phone = models.CharField(max_length=50)
     Email = models.CharField(max_length=50)
     Name = models.CharField(max_length=50)
+    Link = models.CharField(max_length=256)
     
 class Image(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)

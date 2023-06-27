@@ -50,7 +50,8 @@ class Command(BaseCommand):
             Description="None",  # Replace this with actual description
             Phone="None",  # Replace this with actual phone
             Email="None",  # Replace this with actual email
-            Name="None"  # Replace this with actual name
+            Name="None",  # Replace this with actual name
+            Link=car_data['link'] if car_data['link'] is not None else "http://ss.com/"  # Default value of "None" if link is None
         )
         listing.save()  # Insert the listing into the database
         
@@ -72,6 +73,7 @@ class Command(BaseCommand):
 
         car_data = {}
 
+        car_data["link"] = url
         model = soup.find("td", {"id": "tdo_31"})
         car_data["model"] = model.text.replace(self.make, "") if model else None
         
