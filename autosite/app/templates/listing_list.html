@@ -4,12 +4,13 @@
 {% block content %}
   <h2>{% trans "Visi sludinājumi" %}</h2>
 
-  <!-- Filter button -->
-  <button id="filter-toggle">Toggle Filter</button>
+  <!-- Toggle Filter and Sort button -->
+  <button id="filter-sort-toggle">Toggle Filter and Sort</button>
 
-  <!-- Filter form -->
-  <form id="filter-form" method="GET" action="{% url 'listing_list' %}">
-    <div id="filter-fields" style="display: none;">
+  <!-- Filter and Sort form -->
+  <form id="filter-sort-form" method="GET" action="{% url 'listing_list' %}">
+    <div id="filter-sort-fields" style="display: none;">
+      <!-- Filter fields -->
       <input type="text" name="q" placeholder="Search..." value="{{ request.GET.q }}">
       <input type="number" name="min_price" placeholder="Min Price" value="{{ request.GET.min_price }}">
       <input type="number" name="max_price" placeholder="Max Price" value="{{ request.GET.max_price }}">
@@ -41,8 +42,21 @@
           <option value="{{ color_option }}" {% if request.GET.color == color_option %}selected{% endif %}>{{ color_option }}</option>
         {% endfor %}
       </select>
-
-      <input type="submit" value="Filter">
+      <br>
+      <!-- Sort fields -->
+      <select name="sort_by">
+        <option value="" selected disabled>Sort By</option>
+        <option value="Price">Price</option>
+        <option value="Mileage">Mileage</option>
+        <option value="Car__Year">Year</option>
+      </select>
+      <select name="order">
+        <option value="" selected disabled>Order</option>
+        <option value="asc">Ascending</option>
+        <option value="desc">Descending</option>
+      </select>
+      <br>
+      <input type="submit" value="Apply">
     </div>
   </form>
 
@@ -83,14 +97,14 @@
   </div>
 
   <script>
-    const filterToggle = document.getElementById('filter-toggle');
-    const filterFields = document.getElementById('filter-fields');
+    const filterSortToggle = document.getElementById('filter-sort-toggle');
+    const filterSortFields = document.getElementById('filter-sort-fields');
 
-    filterToggle.addEventListener('click', function() {
-      if (filterFields.style.display === 'none') {
-        filterFields.style.display = 'block';
+    filterSortToggle.addEventListener('click', function() {
+      if (filterSortFields.style.display === 'none') {
+        filterSortFields.style.display = 'block';
       } else {
-        filterFields.style.display = 'none';
+        filterSortFields.style.display = 'none';
       }
     });
   </script>

@@ -79,8 +79,10 @@ def listing_list(request):
     fuel = request.GET.get('fuel')
     gearbox = request.GET.get('gearbox')
     color = request.GET.get('color')
+    sort_by = request.GET.get('sort_by')
+    order = request.GET.get('order')
 
-    listings = Listing.objects.all().prefetch_related('image_set')
+    listings = Listing.objects.all().select_related('Car')
 
     if query:
         listings = listings.filter(
@@ -109,6 +111,12 @@ def listing_list(request):
 
     if color:
         listings = listings.filter(Car__Color=color)
+
+    if sort_by and order:
+        if order == 'asc':
+            listings = listings.order_by(sort_by)
+        elif order == 'desc':
+            listings = listings.order_by(f'-{sort_by}')
 
     # Retrieve available options for fuel, gearbox, and color
     fuel_options = Car.objects.values_list('Fuel', flat=True).distinct()
