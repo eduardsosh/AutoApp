@@ -1,22 +1,26 @@
 {% extends 'base_generic.html' %}
 {% load i18n %}
-{% block content %}
-  <h2>{% trans "Reģistrēties" %}</h2>
-  <form method="post">
-  {% csrf_token %}
-  {{ form.non_field_errors }}
-  {% for field in form %}
-    <p>
-        {{ field.label_tag }}<br>
-        {{ field }}
-        {% if field.errors %}
 
-        {% endif %}
-        {% for error in field.errors %}
-        <p style="color: red">{{ error }}</p>
+{% block content %}
+  <div class="container">
+    <div class="form-container">
+      <h2>{% trans "Reģistrēties" %}</h2>
+      <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+          <div class="form-field">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+              {% for error in field.errors %}
+                <p class="error">{{ error }}</p>
+              {% endfor %}
+            {% endif %}
+          </div>
         {% endfor %}
-    </p>
-  {% endfor %}
-  <button type="submit">{% trans "Reģistrēties" %}</button>
-  </form>
+        <button class="register-button" type="submit">{% trans "Reģistrēties" %}</button>
+      </form>
+    </div>
+  </div>
 {% endblock %}
