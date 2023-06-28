@@ -5,20 +5,19 @@
   <h2>{% trans "Visi sludinājumi" %}</h2>
 
   <!-- Toggle Filter and Sort button -->
-  <button id="filter-sort-toggle">Toggle Filter and Sort</button>
 
   <!-- Filter and Sort form -->
   <form id="filter-sort-form" method="GET" action="{% url 'listing_list' %}">
-    <div id="filter-sort-fields" style="display: none;">
+    <div id="filter-sort-fields">
       <!-- Filter fields -->
       <input type="text" name="q" placeholder="Search..." value="{{ request.GET.q }}">
       <input type="number" name="min_price" placeholder="Min Price" value="{{ request.GET.min_price }}">
       <input type="number" name="max_price" placeholder="Max Price" value="{{ request.GET.max_price }}">
-
+  
       <!-- Year range -->
       <input type="number" name="min_year" placeholder="Min Year" value="{{ request.GET.min_year }}">
       <input type="number" name="max_year" placeholder="Max Year" value="{{ request.GET.max_year }}">
-
+  
       <!-- Fuel dropdown -->
       <select name="fuel">
         <option value="" {% if not request.GET.fuel %}selected{% endif %}>Select Fuel</option>
@@ -26,7 +25,7 @@
           <option value="{{ fuel_option }}" {% if request.GET.fuel == fuel_option %}selected{% endif %}>{{ fuel_option }}</option>
         {% endfor %}
       </select>
-
+  
       <!-- Gearbox dropdown -->
       <select name="gearbox">
         <option value="" {% if not request.GET.gearbox %}selected{% endif %}>Select Gearbox</option>
@@ -34,7 +33,7 @@
           <option value="{{ gearbox_option }}" {% if request.GET.gearbox == gearbox_option %}selected{% endif %}>{{ gearbox_option }}</option>
         {% endfor %}
       </select>
-
+  
       <!-- Color dropdown -->
       <select name="color">
         <option value="" {% if not request.GET.color %}selected{% endif %}>Select Color</option>
@@ -46,26 +45,51 @@
       <!-- Sort fields -->
       <select name="sort_by">
         <option value="" selected disabled>Sort By</option>
-        <option value="Price">Price</option>
-        <option value="Mileage">Mileage</option>
-        <option value="Car__Year">Year</option>
+        <option value="Price" {% if request.GET.sort_by == "Price" %}selected{% endif %}>Price</option>
+        <option value="Mileage" {% if request.GET.sort_by == "Mileage" %}selected{% endif %}>Mileage</option>
+        <option value="Car__Year" {% if request.GET.sort_by == "Car__Year" %}selected{% endif %}>Year</option>
       </select>
       <select name="order">
         <option value="" selected disabled>Order</option>
-        <option value="asc">Ascending</option>
-        <option value="desc">Descending</option>
+        <option value="asc" {% if request.GET.order == "asc" %}selected{% endif %}>Ascending</option>
+        <option value="desc" {% if request.GET.order == "desc" %}selected{% endif %}>Descending</option>
       </select>
       <br>
       <input type="submit" value="Apply">
+      <input type="button" id="reset-button" value="Reset">
     </div>
+    <input type="checkbox" name="only_bookmarks" value="true" {% if request.GET.only_bookmarks %}checked{% endif %}>
+    <label for="only_bookmarks">Show only bookmarked listings</label>
   </form>
 
   {% for listing in listings %}
     <div class="listing_item">
-      <a href="{{ listing.Link }}">
+      <div class="parent">
+        <div class="left-child">
+      <button class="bookmark" data-listing-id="{{ listing.id }}">
+        {% if listing.id in bookmarked_listing_ids %}
+          Unbookmark
+        {% else %}
+          Bookmark
+        {% endif %}
+      </button>
+      </div>
+      <div class="right-child">
+      {% if listing.id in bookmarked_listing_ids %}
+        <img id="bookmark-indicator-{{ listing.id }}" style="display: {% if listing.id in bookmarked_listing_ids %}block{% else %}none{% endif %}" src="/static/pngwing.com.png" alt="This listing is bookmarked">
+      {% endif %}
+      </div>
+      </div>
+      <a href="{{ listing.Link }}" target="_blank" rel="noopener noreferrer">
         <h3>{{ listing.Car.Make }} {{ listing.Car.Model }}</h3>
         <p>{% trans "Cena" %}: {{ listing.Price }} €</p>
-        <p>{% trans "Nobraukums" %}: {{ listing.Mileage }} KM</p>
+        <p>{% trans "Nobraukums" %}: {{ listing.Mileage }} km</p>
+
+        <!-- Additional information -->
+        <p>{% trans "Tilpums" %}: {{ listing.Car.Engine_cc }} cc</p>
+        <p>{% trans "Pārnesums" %}: {{ listing.Car.Gearbox }}</p>
+        <p>{% trans "Degviela" %}: {{ listing.Car.Fuel }}</p>
+        <p>{% trans "Gads" %}: {{ listing.Car.Year }}</p>
 
         <!-- Add images -->
         {% for image in listing.image_set.all %}
@@ -74,38 +98,68 @@
         <!-- Add more fields as needed -->
       </a>
     </div>
-  {% empty %}
+{% empty %}
     <p>{% trans "Nav atrasts neviens sludinājums" %}</p>
-  {% endfor %}
+{% endfor %}
 
-  <div class="pagination">
-    <span class="step-links">
-      {% if listings.has_previous %}
-        <a href="?page=1">&laquo; {% trans "Pirmā" %}</a>
-        <a href="?page={{ listings.previous_page_number }}">{% trans "Iepriekšējā" %}</a>
-      {% endif %}
+<div class="pagination">
+  <span class="step-links">
+    {% if listings.has_previous %}
+      <a href="?{{ request.GET.urlencode }}&page=1">&laquo; {% trans "Pirmā" %}</a>
+      <a href="?{{ request.GET.urlencode }}&page={{ listings.previous_page_number }}">{% trans "Iepriekšējā" %}</a>
+    {% endif %}
 
-      <span class="current">
-        {% trans "Lapa" %} {{ listings.number }} {% trans "no" %} {{ listings.paginator.num_pages }}.
-      </span>
-
-      {% if listings.has_next %}
-        <a href="?page={{ listings.next_page_number }}">{% trans "Nākamā" %}</a>
-        <a href="?page={{ listings.paginator.num_pages }}">{% trans "Pēdējā" %} &raquo;</a>
-      {% endif %}
+    <span class="current">
+      {% trans "Lapa" %} {{ listings.number }} {% trans "no" %} {{ listings.paginator.num_pages }}.
     </span>
-  </div>
 
-  <script>
-    const filterSortToggle = document.getElementById('filter-sort-toggle');
-    const filterSortFields = document.getElementById('filter-sort-fields');
+    {% if listings.has_next %}
+      <a href="?{{ request.GET.urlencode }}&page={{ listings.next_page_number }}">{% trans "Nākamā" %}</a>
+      <a href="?{{ request.GET.urlencode }}&page={{ listings.paginator.num_pages }}">{% trans "Pēdējā" %} &raquo;</a>
+    {% endif %}
+  </span>
+</div>
 
-    filterSortToggle.addEventListener('click', function() {
-      if (filterSortFields.style.display === 'none') {
-        filterSortFields.style.display = 'block';
-      } else {
-        filterSortFields.style.display = 'none';
-      }
+
+
+<script>
+  document.querySelectorAll('.bookmark').forEach(function(button) {
+    button.addEventListener('click', function() {
+      const listingId = this.dataset.listingId;
+      
+      fetch('/bookmark/', {
+        method: 'POST',
+        body: JSON.stringify({ listing_id: listingId }),
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        credentials: 'same-origin'
+      })
+      .then(response => response.json())
+      .then(data => {
+        const bookmarkIndicator = document.querySelector(`#bookmark-indicator-${listingId}`);
+
+        if (data.bookmarked) {
+          // The listing was bookmarked
+          button.textContent = 'Unbookmark';
+          bookmarkIndicator.style.display = 'block';  // Make the image visible
+        } else {
+          // The listing was unbookmarked
+          button.textContent = 'Bookmark';
+          bookmarkIndicator.style.display = 'none';  // Hide the image
+        }
+      });
     });
-  </script>
+  });
+
+  document.getElementById('reset-button').addEventListener('click', function() {
+    // Clear all fields in the form
+    document.getElementById('filter-sort-form').reset();
+
+    // Redirect to the page without any parameters
+    window.location.href = "{% url 'listing_list' %}";
+  });
+</script>
+
 {% endblock %}

@@ -48,7 +48,7 @@ img {
 .listing_item {
   display: inline-block;
   width: 400px;
-  height: 400px;
+  height: auto;
   margin: 10px;
   border: 1px solid #dddddd;
   border-radius: 4px;
@@ -210,4 +210,22 @@ footer {
   font-weight: bold;
 }
 
+.parent {
+  display: flex;
+  justify-content: space-between;
+}
 
+.left-child {
+  order: 1; /* Specify the order of the left child */
+}
+
+.right-child{
+  height: 50px;
+  order: 2; /* Specify the order of the right child */
+}
+
+.right-child img {
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}

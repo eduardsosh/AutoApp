@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-
+from django.contrib.auth.models import User
 # Create your models here.
 
 
@@ -39,3 +39,9 @@ class Image(models.Model):
         storage.delete(path)
 
     
+class Bookmark(models.Model):   # new model
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('user', 'listing')

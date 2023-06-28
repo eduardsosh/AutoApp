@@ -1,9 +1,15 @@
 # Main views for the app
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.db import connections
+import json
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 # Database
-from .models import Car, Listing, Image
+from .models import Car, Listing, Image , Bookmark
 from .forms import ListingCreationForm
 from .forms import EditUserForm
 from .forms import RegistrationForm
@@ -71,6 +77,8 @@ def create_listing(request):
 
 
 def listing_list(request):
+    query_params = request.GET.copy()
+    
     query = request.GET.get('q')
     min_price = request.GET.get('min_price')
     max_price = request.GET.get('max_price')
@@ -81,42 +89,54 @@ def listing_list(request):
     color = request.GET.get('color')
     sort_by = request.GET.get('sort_by')
     order = request.GET.get('order')
+    only_bookmarks = request.GET.get('only_bookmarks')
 
     listings = Listing.objects.all().select_related('Car')
 
-    if query:
-        listings = listings.filter(
-            Q(Description__icontains=query) |
-            Q(Car__Make__icontains=query) |
-            Q(Car__Model__icontains=query)
-        )
+    if query or min_price or max_price or min_year or max_year or fuel or gearbox or color or sort_by or order or only_bookmarks:
+        if query:
+            listings = listings.filter(
+                Q(Description__icontains=query) |
+                Q(Car__Make__icontains=query) |
+                Q(Car__Model__icontains=query)
+            )
 
-    if min_price:
-        listings = listings.filter(Price__gte=min_price)
+        if min_price:
+            listings = listings.filter(Price__gte=min_price)
 
-    if max_price:
-        listings = listings.filter(Price__lte=max_price)
+        if max_price:
+            listings = listings.filter(Price__lte=max_price)
 
-    if min_year:
-        listings = listings.filter(Car__Year__gte=min_year)
+        if min_year:
+            listings = listings.filter(Car__Year__gte=min_year)
 
-    if max_year:
-        listings = listings.filter(Car__Year__lte=max_year)
+        if max_year:
+            listings = listings.filter(Car__Year__lte=max_year)
 
-    if fuel:
-        listings = listings.filter(Car__Fuel=fuel)
+        if fuel:
+            listings = listings.filter(Car__Fuel=fuel)
 
-    if gearbox:
-        listings = listings.filter(Car__Gearbox=gearbox)
+        if gearbox:
+            listings = listings.filter(Car__Gearbox=gearbox)
 
-    if color:
-        listings = listings.filter(Car__Color=color)
+        if color:
+            listings = listings.filter(Car__Color=color)
 
-    if sort_by and order:
-        if order == 'asc':
-            listings = listings.order_by(sort_by)
-        elif order == 'desc':
-            listings = listings.order_by(f'-{sort_by}')
+        if only_bookmarks:
+            bookmark_ids = Bookmark.objects.filter(user=request.user).values_list('listing', flat=True)
+            listings = listings.filter(id__in=bookmark_ids)
+
+        if sort_by and order:
+            if order == 'asc':
+                listings = listings.order_by(sort_by)
+            elif order == 'desc':
+                listings = listings.order_by(f'-{sort_by}')
+    else:
+        if 'random_order' not in request.session:
+            listings = listings.order_by('?')
+            request.session['random_order'] = [item.id for item in listings]
+        else:
+            listings = listings.filter(id__in=request.session['random_order'])
 
     # Retrieve available options for fuel, gearbox, and color
     fuel_options = Car.objects.values_list('Fuel', flat=True).distinct()
@@ -131,6 +151,9 @@ def listing_list(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
+    
+    bookmarked_listing_ids = Bookmark.objects.filter(user=request.user).values_list('listing_id', flat=True)
+
     return render(
         request,
         'listing_list.html',
@@ -140,7 +163,9 @@ def listing_list(request):
             'gearbox_options': gearbox_options,
             'color_options': color_options,
             'min_year_value': min_year_value,
-            'max_year_value': max_year_value
+            'max_year_value': max_year_value,
+            'query_params': query_params,
+            'bookmarked_listing_ids': bookmarked_listing_ids
         }
     )
 
@@ -202,3 +227,16 @@ from django.shortcuts import get_object_or_404
 def listing_detail(request, id):
     listing = get_object_or_404(Listing, id=id)
     return render(request, 'listing_detail.html', {'listing': listing})
+
+@csrf_exempt
+@login_required
+def bookmark(request):
+    listing_id = json.loads(request.body).get('listing_id')
+
+    bookmark, created = Bookmark.objects.get_or_create(user=request.user, listing_id=listing_id)
+
+    if not created:
+        bookmark.delete()
+        return JsonResponse({ 'bookmarked': False })
+    else:
+        return JsonResponse({ 'bookmarked': True })

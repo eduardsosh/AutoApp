@@ -14,4 +14,5 @@ urlpatterns = [
     path('edit_user/', views.edit_user, name='edit_user'),
     path('i18n/', include('django.conf.urls.i18n')),  # Django's i18n URLs
     path('listing/<int:id>/', views.listing_detail, name='listing_detail'),
+    path('bookmark/', views.bookmark, name='bookmark'),
 ]
