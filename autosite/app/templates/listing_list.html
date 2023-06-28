@@ -1,50 +1,103 @@
 {% extends 'base_generic.html' %}
 {% load i18n %}
+
 {% block content %}
   <h2>{% trans "Visi sludinājumi" %}</h2>
 
+  <!-- Search form -->
+  <form method="GET" action="{% url 'listing_list' %}">
+    <input type="text" name="q" placeholder="{% trans 'Search...' %}">
+    <input type="submit" value="{% trans 'Search' %}">
+  </form>
 
-{% for listing in listings %}
-  <div class="listing_item">
-    <a href="{{ listing.Link }}">
-      <h3>{{ listing.Car.Make }} {{ listing.Car.Model }}</h3>
-      <p>{% trans "Cena" %}: {{ listing.Price }}</p>
-      <p>{% trans "Nobraukums" %}: {{ listing.Mileage }}</p>
+  <!-- Filter button -->
+  <button id="filter-toggle">Toggle Filter</button>
 
+  <!-- Filter form -->
+  <form id="filter-form" method="GET" action="{% url 'listing_list' %}">
+    <div id="filter-fields" style="display: none;">
+      <input type="text" name="q" placeholder="Search..." value="{{ request.GET.q }}">
+      <input type="number" name="min_price" placeholder="Min Price" value="{{ request.GET.min_price }}">
+      <input type="number" name="max_price" placeholder="Max Price" value="{{ request.GET.max_price }}">
 
-      <!-- Add images -->
-      {% for image in listing.image_set.all %}
-        <img src="{{ image.image.url }}" alt="Listing image">
-      {% endfor %}
-      <!-- Add more fields as needed -->
-    </a>
+      <!-- Year range -->
+      <input type="number" name="min_year" placeholder="Min Year" value="{{ request.GET.min_year }}">
+      <input type="number" name="max_year" placeholder="Max Year" value="{{ request.GET.max_year }}">
+
+      <!-- Fuel dropdown -->
+      <select name="fuel">
+        <option value="" {% if not request.GET.fuel %}selected{% endif %}>Select Fuel</option>
+        {% for fuel_option in fuel_options %}
+          <option value="{{ fuel_option }}" {% if request.GET.fuel == fuel_option %}selected{% endif %}>{{ fuel_option }}</option>
+        {% endfor %}
+      </select>
+
+      <!-- Gearbox dropdown -->
+      <select name="gearbox">
+        <option value="" {% if not request.GET.gearbox %}selected{% endif %}>Select Gearbox</option>
+        {% for gearbox_option in gearbox_options %}
+          <option value="{{ gearbox_option }}" {% if request.GET.gearbox == gearbox_option %}selected{% endif %}>{{ gearbox_option }}</option>
+        {% endfor %}
+      </select>
+
+      <!-- Color dropdown -->
+      <select name="color">
+        <option value="" {% if not request.GET.color %}selected{% endif %}>Select Color</option>
+        {% for color_option in color_options %}
+          <option value="{{ color_option }}" {% if request.GET.color == color_option %}selected{% endif %}>{{ color_option }}</option>
+        {% endfor %}
+      </select>
+
+      <input type="submit" value="Filter">
+    </div>
+  </form>
+
+  {% for listing in listings %}
+    <div class="listing_item">
+      <a href="{{ listing.Link }}">
+        <h3>{{ listing.Car.Make }} {{ listing.Car.Model }}</h3>
+        <p>{% trans "Cena" %}: {{ listing.Price }} €</p>
+        <p>{% trans "Nobraukums" %}: {{ listing.Mileage }} KM</p>
+
+        <!-- Add images -->
+        {% for image in listing.image_set.all %}
+          <img src="{{ image.image.url }}" alt="Listing image">
+        {% endfor %}
+        <!-- Add more fields as needed -->
+      </a>
     </div>
   {% empty %}
     <p>{% trans "Nav atrasts neviens sludinājums" %}</p>
   {% endfor %}
 
-  {% for item in listings %}
-    <!-- Display your items here. Example: -->
-    <p>{{ item.field_name }}</p>
-{% endfor %}
-
-<div class="pagination">
+  <div class="pagination">
     <span class="step-links">
-        {% if listings.has_previous %}
-            <a href="?page=1">&laquo; {% trans "Pirmā" %}</a>
-            <a href="?page={{ listings.previous_page_number }}">{% trans "Iepriekšējā" %}</a>
-        {% endif %}
+      {% if listings.has_previous %}
+        <a href="?page=1">&laquo; {% trans "Pirmā" %}</a>
+        <a href="?page={{ listings.previous_page_number }}">{% trans "Iepriekšējā" %}</a>
+      {% endif %}
 
-        <span class="current">
-          {% trans "Lapa" %} {{ listings.number }} {% trans "no" %} {{ listings.paginator.num_pages }}.
-        </span>
+      <span class="current">
+        {% trans "Lapa" %} {{ listings.number }} {% trans "no" %} {{ listings.paginator.num_pages }}.
+      </span>
 
-        {% if listings.has_next %}
-            <a href="?page={{ listings.next_page_number }}">{% trans "Nākamā" %}</a>
-            <a href="?page={{ listings.paginator.num_pages }}">{% trans "Iepriekšējā" %} &raquo;</a>
-        {% endif %}
+      {% if listings.has_next %}
+        <a href="?page={{ listings.next_page_number }}">{% trans "Nākamā" %}</a>
+        <a href="?page={{ listings.paginator.num_pages }}">{% trans "Pēdējā" %} &raquo;</a>
+      {% endif %}
     </span>
-</div>
+  </div>
 
+  <script>
+    const filterToggle = document.getElementById('filter-toggle');
+    const filterFields = document.getElementById('filter-fields');
 
+    filterToggle.addEventListener('click', function() {
+      if (filterFields.style.display === 'none') {
+        filterFields.style.display = 'block';
+      } else {
+        filterFields.style.display = 'none';
+      }
+    });
+  </script>
 {% endblock %}

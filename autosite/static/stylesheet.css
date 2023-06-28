@@ -3,13 +3,17 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  min-height: 100vh; /* Set minimum height of the body to 100% of the viewport height */
+  display: flex;
+  flex-direction: column; /* Arrange elements vertically */
 }
 
 .container {
+  flex: 1; /* Allow the container to take up remaining vertical space */
   margin: 0 auto;
   padding: 20px;
   text-align: center;
-  padding-top: 80px;
+  padding-top: 35px;
 }
 
 h1 {
@@ -166,3 +170,44 @@ img {
 .form-container button[type="submit"]:hover {
   background-color: #555555;
 }
+
+footer {
+  background-color: #333333;
+  color: #ffffff;
+  padding: 10px;
+  text-align: center;
+  margin-top: auto; /* Push the footer to the bottom */
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.step-links {
+  display: flex;
+  align-items: center;
+}
+
+.step-links a {
+  color: #333333;
+  text-decoration: none;
+  padding: 5px 10px;
+  margin: 0 5px;
+  border-radius: 4px;
+  background-color: #dddddd;
+  transition: background-color 0.3s ease;
+}
+
+.step-links a:hover {
+  background-color: #bbbbbb;
+}
+
+.current {
+  margin: 0 10px;
+  font-weight: bold;
+}
+
+

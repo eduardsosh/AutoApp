@@ -14,7 +14,11 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import logout
 
+# Listing list, filter and search
 from django.core.paginator import Paginator
+from django.db.models import Q
+from django.db.models import Min, Max
+
 
 def index(request):
     return redirect('listing_list')
@@ -67,13 +71,70 @@ def create_listing(request):
 
 
 def listing_list(request):
+    query = request.GET.get('q')
+    min_price = request.GET.get('min_price')
+    max_price = request.GET.get('max_price')
+    min_year = request.GET.get('min_year')
+    max_year = request.GET.get('max_year')
+    fuel = request.GET.get('fuel')
+    gearbox = request.GET.get('gearbox')
+    color = request.GET.get('color')
+
     listings = Listing.objects.all().prefetch_related('image_set')
-    paginator = Paginator(listings, 12) # Show 12 objects per page
+
+    if query:
+        listings = listings.filter(
+            Q(Description__icontains=query) |
+            Q(Car__Make__icontains=query) |
+            Q(Car__Model__icontains=query)
+        )
+
+    if min_price:
+        listings = listings.filter(Price__gte=min_price)
+
+    if max_price:
+        listings = listings.filter(Price__lte=max_price)
+
+    if min_year:
+        listings = listings.filter(Car__Year__gte=min_year)
+
+    if max_year:
+        listings = listings.filter(Car__Year__lte=max_year)
+
+    if fuel:
+        listings = listings.filter(Car__Fuel=fuel)
+
+    if gearbox:
+        listings = listings.filter(Car__Gearbox=gearbox)
+
+    if color:
+        listings = listings.filter(Car__Color=color)
+
+    # Retrieve available options for fuel, gearbox, and color
+    fuel_options = Car.objects.values_list('Fuel', flat=True).distinct()
+    gearbox_options = Car.objects.values_list('Gearbox', flat=True).distinct()
+    color_options = Car.objects.values_list('Color', flat=True).distinct()
+
+    # Get min and max year values for the range input
+    min_year_value = Car.objects.aggregate(Min('Year'))['Year__min']
+    max_year_value = Car.objects.aggregate(Max('Year'))['Year__max']
+
+    paginator = Paginator(listings, 12)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    
-    return render(request, 'listing_list.html', {'listings': page_obj})
-    #return render(request, 'listing_list.html', {'listings': listings})
+
+    return render(
+        request,
+        'listing_list.html',
+        {
+            'listings': page_obj,
+            'fuel_options': fuel_options,
+            'gearbox_options': gearbox_options,
+            'color_options': color_options,
+            'min_year_value': min_year_value,
+            'max_year_value': max_year_value
+        }
+    )
 
 def delete_all_listings(request):
     cars = Car.objects.all()
