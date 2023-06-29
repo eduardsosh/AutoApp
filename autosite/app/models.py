@@ -24,6 +24,7 @@ class Listing(models.Model):
     Email = models.CharField(max_length=50)
     Name = models.CharField(max_length=50)
     Link = models.CharField(max_length=256)
+    User = models.ForeignKey(User, on_delete=models.CASCADE , null=True)
     
     def get_absolute_url(self):
         return reverse('listing_detail', args=[str(self.id)])

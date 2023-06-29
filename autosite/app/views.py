@@ -4,6 +4,8 @@ from django.http import HttpResponse
 from django.db import connections
 import json
 
+from django.contrib.auth.decorators import user_passes_test
+
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
@@ -32,7 +34,7 @@ def index(request):
 def market(request):
     return render(request, 'market.html', {})
 
-
+@login_required
 def create_listing(request):
     form = ListingCreationForm(request.POST, request.FILES)
     if form.is_valid():
@@ -55,7 +57,8 @@ def create_listing(request):
             Phone=form.cleaned_data['Phone'],
             Email=form.cleaned_data['Email'],
             Name="None",
-            Link=""  # Initially set Link to an empty string
+            Link="",  # Initially set Link to an empty string
+            User=request.user,
         )
 
         # Set Link to the URL of the listing
@@ -90,10 +93,11 @@ def listing_list(request):
     sort_by = request.GET.get('sort_by')
     order = request.GET.get('order')
     only_bookmarks = request.GET.get('only_bookmarks')
+    only_owned = request.GET.get('only_owned')
 
     listings = Listing.objects.all().select_related('Car')
 
-    if query or min_price or max_price or min_year or max_year or fuel or gearbox or color or sort_by or order or only_bookmarks:
+    if query or min_price or max_price or min_year or max_year or fuel or gearbox or color or sort_by or order or only_bookmarks or only_owned:
         if query:
             listings = listings.filter(
                 Q(Description__icontains=query) |
@@ -125,6 +129,10 @@ def listing_list(request):
         if only_bookmarks:
             bookmark_ids = Bookmark.objects.filter(user=request.user).values_list('listing', flat=True)
             listings = listings.filter(id__in=bookmark_ids)
+        
+        if only_owned:
+            owned_ids = Listing.objects.filter(User=request.user).values_list('id', flat=True)
+            listings = listings.filter(id__in=owned_ids)
 
         if sort_by and order:
             if order == 'asc':
@@ -154,8 +162,10 @@ def listing_list(request):
 
     if request.user.is_authenticated:
         bookmarked_listing_ids = Bookmark.objects.filter(user=request.user).values_list('listing_id', flat=True)
+        owned_listing_ids = Listing.objects.filter(User=request.user).values_list('User', flat=True)
     else:
         bookmarked_listing_ids = []
+        owned_listing_ids = []
 
 
 
@@ -170,7 +180,8 @@ def listing_list(request):
             'min_year_value': min_year_value,
             'max_year_value': max_year_value,
             'query_params': query_params,
-            'bookmarked_listing_ids': bookmarked_listing_ids
+            'bookmarked_listing_ids': bookmarked_listing_ids,
+            'owned_listing_ids': owned_listing_ids,
         }
     )
 
@@ -186,6 +197,19 @@ def delete_all_listings(request):
         car.delete()
         
     return redirect('listing_list')
+
+from django.http import HttpResponseForbidden
+
+def delete_listing(request, listing_id):
+    listing = get_object_or_404(Listing, id=listing_id)
+
+    # Check if the user is either a staff member or the creator of the listing
+    if request.user.is_staff or request.user == listing.User:
+        listing.delete()
+        return redirect('listing_list')
+
+    # If the user is neither a staff member nor the creator of the listing, return a forbidden response
+    return HttpResponseForbidden("You are not allowed to delete this listing.")
 
 
 def register(request):

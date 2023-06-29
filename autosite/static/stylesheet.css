@@ -258,7 +258,6 @@ input[type=number] {
 }
 
 .bookmark-filter{
-  margin-top: 30px;
   height: 35px; 
 }
 
@@ -267,6 +266,18 @@ input[type=number] {
 }
 
 .bookmark-filter label {
+  font-size: 18px; /* Increase label font size */
+}
+
+.owned-filter{
+  height: 35px; 
+}
+
+.owned-filter input[type="checkbox"] {
+  transform: scale(1.5); /* Increase checkbox size */
+}
+
+.owned-filter label {
   font-size: 18px; /* Increase label font size */
 }
 

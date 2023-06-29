@@ -15,4 +15,5 @@ urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),  # Django's i18n URLs
     path('listing/<int:id>/', views.listing_detail, name='listing_detail'),
     path('bookmark/', views.bookmark, name='bookmark'),
+    path('delete/<int:listing_id>/', delete_listing, name='delete_listing'),
 ]

@@ -26,6 +26,8 @@ class Command(BaseCommand):
         
         for car_data in all_car_data:
             self.insert_into_database(car_data)
+            
+        print("Done!")
 
 
     def insert_into_database(self, car_data):
