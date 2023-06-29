@@ -13,35 +13,35 @@
 <body>
     <div class="mylisting-container">
         <div class="listing-text">
-            <h1>Listing Details</h1>
-            <h2>Car Information</h2>
+            <h1>{% trans "Sludinājuma detaļas" %}</h1>
+            <h2>{% trans "Auto informācija" %}</h2>
             <ul>
-                <li>Make: {{ listing.Car.Make }}</li>
-                <li>Model: {{ listing.Car.Model }}</li>
-                <li>Year: {{ listing.Car.Year }}</li>
-                <li>Fuel: {{ listing.Car.Fuel }}</li>
-                <li>Engine: {{ listing.Car.Engine_cc }}</li>
-                <li>Gearbox: {{ listing.Car.Gearbox }}</li>
-                <li>Color: {{ listing.Car.Color }}</li>
+                <li>{% trans "Marka:"%} {{ listing.Car.Make }}</li>
+                <li>{% trans "Modelis:"%} {{ listing.Car.Model }}</li>
+                <li>{% trans "Gads:"%} {{ listing.Car.Year }}</li>
+                <li>{% trans "Degviela:"%} {{ listing.Car.Fuel }}</li>
+                <li>{% trans "Motora tilpums:"%} {{ listing.Car.Engine_cc }}</li>
+                <li>{% trans "Ātrumkārba:"%} {{ listing.Car.Gearbox }}</li>
+                <li>{% trans "Krāsa:"%} {{ listing.Car.Color }}</li>
             </ul>
-            <h2>Listing Information</h2>
+            <h2>{% trans "Informācija sludinājumā"%}</h2>
             <ul>
-                <li>Price: {{ listing.Price }}</li>
-                <li>Mileage: {{ listing.Mileage }}</li>
-                <li>Location: {{ listing.Location }}</li>
-                <li>Description: {{ listing.Description }}</li>
-                <li>Date: {{ listing.Date }}</li>
-                <li>Phone: {{ listing.Phone }}</li>
-                <li>Email: {{ listing.Email }}</li>
-                <li>Name: {{ listing.Name }}</li>
+                <li>{% trans "Cena:"%} {{ listing.Price }}</li>
+                <li>{% trans "Nobraukums:"%} {{ listing.Mileage }}</li>
+                <li>{% trans "Atrašanās vieta:"%} {{ listing.Location }}</li>
+                <li>{% trans "Apraksts:"%} {{ listing.Description }}</li>
+                <li>{% trans "Ievietošanas datums:"%} {{ listing.Date }}</li>
+                <li>{% trans "Telefona nr:"%} {{ listing.Phone }}</li>
+                <li>{% trans "Epasts:"%} {{ listing.Email }}</li>
+                <li>{% trans "Vārds:"%} {{ listing.Name }}</li>
             </ul>
         </div>
         <div class="listing-image">
-            <h2>Images</h2>
+            <h2>{% trans "Bildes"%}</h2>
             {% for image in listing.image_set.all %}
                 <img src="{{ image.image.url }}" alt="Listing Image">
             {% empty %}
-                <p>No images available for this listing.</p>
+                <p>{% trans "Šim sludinājumaam nav pieejamu bilžu"%}</p>
             {% endfor %}
         </div>
     </div>
