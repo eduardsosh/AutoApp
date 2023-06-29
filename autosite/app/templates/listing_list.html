@@ -20,7 +20,7 @@
   
       <!-- Fuel dropdown -->
       <select name="fuel">
-        <option value="" {% if not request.GET.fuel %}selected{% endif %}>Select Fuel</option>
+        <option value="" {% if not request.GET.fuel %}selected{% endif %}>{%trans"Degvielas tips"%}</option>
         {% for fuel_option in fuel_options %}
           <option value="{{ fuel_option }}" {% if request.GET.fuel == fuel_option %}selected{% endif %}>{{ fuel_option }}</option>
         {% endfor %}
@@ -28,7 +28,7 @@
   
       <!-- Gearbox dropdown -->
       <select name="gearbox">
-        <option value="" {% if not request.GET.gearbox %}selected{% endif %}>Select Gearbox</option>
+        <option value="" {% if not request.GET.gearbox %}selected{% endif %}>{%trans"Ātrumkārba"%}</option>
         {% for gearbox_option in gearbox_options %}
           <option value="{{ gearbox_option }}" {% if request.GET.gearbox == gearbox_option %}selected{% endif %}>{{ gearbox_option }}</option>
         {% endfor %}
@@ -36,7 +36,7 @@
   
       <!-- Color dropdown -->
       <select name="color">
-        <option value="" {% if not request.GET.color %}selected{% endif %}>Select Color</option>
+        <option value="" {% if not request.GET.color %}selected{% endif %}>{%trans"Krāsa"%}</option>
         {% for color_option in color_options %}
           <option value="{{ color_option }}" {% if request.GET.color == color_option %}selected{% endif %}>{{ color_option }}</option>
         {% endfor %}
@@ -44,15 +44,15 @@
       <br>
       <!-- Sort fields -->
       <select name="sort_by">
-        <option value="" selected disabled>Sort By</option>
-        <option value="Price" {% if request.GET.sort_by == "Price" %}selected{% endif %}>Price</option>
-        <option value="Mileage" {% if request.GET.sort_by == "Mileage" %}selected{% endif %}>Mileage</option>
-        <option value="Car__Year" {% if request.GET.sort_by == "Car__Year" %}selected{% endif %}>Year</option>
+        <option value="" selected disabled>{%trans"Kārtot pēc"%}</option>
+        <option value="Price" {% if request.GET.sort_by == "Price" %}selected{% endif %}>{%trans"Cenas"%}</option>
+        <option value="Mileage" {% if request.GET.sort_by == "Mileage" %}selected{% endif %}>{%trans"Nobraukuma"%}</option>
+        <option value="Car__Year" {% if request.GET.sort_by == "Car__Year" %}selected{% endif %}>{%trans"Gada"%}</option>
       </select>
       <select name="order">
-        <option value="" selected disabled>Order</option>
-        <option value="asc" {% if request.GET.order == "asc" %}selected{% endif %}>Ascending</option>
-        <option value="desc" {% if request.GET.order == "desc" %}selected{% endif %}>Descending</option>
+        <option value="" selected disabled>{%trans"Secība"%}</option>
+        <option value="asc" {% if request.GET.order == "asc" %}selected{% endif %}>{%trans"Augošā"%}</option>
+        <option value="desc" {% if request.GET.order == "desc" %}selected{% endif %}>{%trans"Dilstošā"%}</option>
       </select>
       <br>
       <input type="submit" value="Apply" id="apply-button">
@@ -61,9 +61,9 @@
     {% if user.is_authenticated %}
     <div class="bookmark-filter">
       <input type="checkbox" name="only_bookmarks" value="true" {% if request.GET.only_bookmarks %}checked{% endif %}>
-      <label for="only_bookmarks">Rādīt tikai atzīmētos</label>
+      <label for="only_bookmarks">{% trans "Rādīt tikai atzīmētos"%}</label>
       <input type="checkbox" name="only_owned" value="true" {% if request.GET.only_owned %}checked{% endif %}>
-      <label for="only_owned">Rādīt tikai savus</label>
+      <label for="only_owned">{% trans "Rādīt tikai savus"%}</label>
     </div>
     <div class="owned-filter">
       
@@ -81,9 +81,9 @@
       <div class="left-child">
           <button class="bookmark" data-listing-id="{{ listing.id }}">
               {% if listing.id in bookmarked_listing_ids %}
-                Unbookmark
+              {% trans "Noņemt grāmatzīmi"%}
               {% else %}
-                Bookmark
+              {% trans "Ievietot grāmatzīmi"%}
               {% endif %}
           </button>
       </div>
