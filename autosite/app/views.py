@@ -26,6 +26,9 @@ from django.contrib.auth import logout
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.db.models import Min, Max
+
+from datetime import datetime, timedelta
+import hashlib
 import random
 
 
@@ -80,8 +83,6 @@ def create_listing(request):
 
     return render(request, 'create_listing.html', {'form': form})
 
-
-import random
 
 def listing_list(request):
     query_params = request.GET.copy()
@@ -144,8 +145,17 @@ def listing_list(request):
             elif order == 'desc':
                 listings = listings.order_by(f'-{sort_by}')
     else:
+        current_time = datetime.now()
+        
+        current_time = current_time - timedelta(minutes=current_time.minute % 10,
+        seconds=current_time.second,
+        microseconds=current_time.microsecond)
+        
+        seed = int(hashlib.md5(current_time.isoformat().encode('utf-8')).hexdigest(), 16)
+        random.seed(seed)
         listings = list(listings)  # Convert queryset to list
         random.shuffle(listings)  # Shuffle the list
+
 
     # Retrieve available options for fuel, gearbox, and color
     fuel_options = Car.objects.values_list('Fuel', flat=True).distinct()
@@ -162,7 +172,7 @@ def listing_list(request):
 
     if request.user.is_authenticated:
         bookmarked_listing_ids = Bookmark.objects.filter(user=request.user).values_list('listing_id', flat=True)
-        owned_listing_ids = Listing.objects.filter(User=request.user).values_list('User', flat=True)
+        owned_listing_ids = Listing.objects.filter(User=request.user).values_list('id', flat=True)
     else:
         bookmarked_listing_ids = []
         owned_listing_ids = []
