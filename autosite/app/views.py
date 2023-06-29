@@ -26,6 +26,8 @@ from django.contrib.auth import logout
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.db.models import Min, Max
+import random
+
 
 
 def index(request):
@@ -79,9 +81,11 @@ def create_listing(request):
     return render(request, 'create_listing.html', {'form': form})
 
 
+import random
+
 def listing_list(request):
     query_params = request.GET.copy()
-    
+
     query = request.GET.get('q')
     min_price = request.GET.get('min_price')
     max_price = request.GET.get('max_price')
@@ -129,7 +133,7 @@ def listing_list(request):
         if only_bookmarks:
             bookmark_ids = Bookmark.objects.filter(user=request.user).values_list('listing', flat=True)
             listings = listings.filter(id__in=bookmark_ids)
-        
+
         if only_owned:
             owned_ids = Listing.objects.filter(User=request.user).values_list('id', flat=True)
             listings = listings.filter(id__in=owned_ids)
@@ -140,11 +144,8 @@ def listing_list(request):
             elif order == 'desc':
                 listings = listings.order_by(f'-{sort_by}')
     else:
-        if 'random_order' not in request.session:
-            listings = listings.order_by('?')
-            request.session['random_order'] = [item.id for item in listings]
-        else:
-            listings = listings.filter(id__in=request.session['random_order'])
+        listings = list(listings)  # Convert queryset to list
+        random.shuffle(listings)  # Shuffle the list
 
     # Retrieve available options for fuel, gearbox, and color
     fuel_options = Car.objects.values_list('Fuel', flat=True).distinct()
@@ -159,15 +160,12 @@ def listing_list(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-
     if request.user.is_authenticated:
         bookmarked_listing_ids = Bookmark.objects.filter(user=request.user).values_list('listing_id', flat=True)
         owned_listing_ids = Listing.objects.filter(User=request.user).values_list('User', flat=True)
     else:
         bookmarked_listing_ids = []
         owned_listing_ids = []
-
-
 
     return render(
         request,
@@ -184,6 +182,7 @@ def listing_list(request):
             'owned_listing_ids': owned_listing_ids,
         }
     )
+
 
 def delete_all_listings(request):
     cars = Car.objects.all()
