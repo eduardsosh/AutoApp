@@ -31,6 +31,10 @@ from datetime import datetime, timedelta
 import hashlib
 import random
 
+from PIL import Image as PilImage
+from django.core.files import File
+from io import BytesIO
+
 
 
 def index(request):
@@ -70,11 +74,20 @@ def create_listing(request):
         listing.Link = request.build_absolute_uri(listing.get_absolute_url())
         listing.save()
 
-        for f in request.FILES.getlist('image'):
-            Image.objects.create(
-                listing=listing,
-                image=f,
-            )
+        # Compress image
+        image = PilImage.open(form.cleaned_data['image'])
+        # Resize and save the image to a BytesIO object
+        image.thumbnail((800, 800), PilImage.ANTIALIAS)  # Resize the image in-place
+        temp_file = BytesIO()
+        image.save(temp_file, format='JPEG', quality=90)
+        temp_file.seek(0)
+        # Create a new Django file-like object to use in your model
+        compressed_image = File(temp_file, name=form.cleaned_data['image'].name)
+
+        Image.objects.create(
+            listing=listing,
+            image=compressed_image,
+        )
 
         return redirect('listing_list')
 
