@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-29 22:41+0300\n"
+"POT-Creation-Date: 2023-06-29 23:21+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,23 +17,24 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-#: .\app\forms.py:13
+
+#: .\app\forms.py:14
 msgid "Benzīns"
 msgstr "Petrol"
 
-#: .\app\forms.py:14
+#: .\app\forms.py:15
 msgid "Dīzelis"
 msgstr "Diesel"
 
-#: .\app\forms.py:15
+#: .\app\forms.py:16
 msgid "Elektrība"
 msgstr "Electric"
 
-#: .\app\forms.py:16
-msgid "Benzīns/gāze"
-msgstr "Petrol/LPG"
-
 #: .\app\forms.py:17
+msgid "Benzīns/gāze"
+msgstr "Petrol/gas"
+
+#: .\app\forms.py:18
 msgid "Hibrīds"
 msgstr "Hybrid"
 
@@ -87,7 +88,7 @@ msgstr "Description"
 
 #: .\app\forms.py:37
 msgid "Tel. nr."
-msgstr "Phone number"
+msgstr "Phone"
 
 #: .\app\forms.py:38
 msgid "Epasts"
@@ -98,42 +99,58 @@ msgid "Attēls"
 msgstr "Image"
 
 #: .\app\forms.py:44
-msgid "Cenai jābūt pozitīvam skaitlim!"
-msgstr "Price must be positive!"
+msgid "Cenai jābūt pozitīvai!"
+msgstr "Price must be postive!"
 
-#: .\app\forms.py:49
+#: .\app\forms.py:50
+msgid "Nobraukums nevar būt negatīvs!"
+msgstr "Milage can't be negative!"
+
+#: .\app\forms.py:58
+msgid "Nederīgs gads!"
+msgstr "Invalid year!"
+
+#: .\app\forms.py:64
+msgid "Nederīgs telefona numurs!"
+msgstr "Invalid phone number!"
+
+#: .\app\forms.py:70
+msgid "Motora tilpums nevar būt negatīvs!"
+msgstr "Engine displacement can't be negative!"
+
+#: .\app\forms.py:75
 msgid "Epasta adrese"
 msgstr "Email"
 
-#: .\app\forms.py:52 .\app\forms.py:73
+#: .\app\forms.py:78 .\app\forms.py:99
 msgid "Parole"
 msgstr "Password"
 
-#: .\app\forms.py:55
+#: .\app\forms.py:81
 msgid "Ievadiet drošu paroli!"
 msgstr "Enter a secure password!"
 
-#: .\app\forms.py:59 .\app\forms.py:74
+#: .\app\forms.py:85 .\app\forms.py:100
 msgid "Parole vēlreiz"
 msgstr "Password again"
 
-#: .\app\forms.py:62
+#: .\app\forms.py:88
 msgid "Ievadiet paroli vēlreiz!"
 msgstr "Enter the password again!"
 
-#: .\app\forms.py:69
+#: .\app\forms.py:95
 msgid "Lietotājvārds"
 msgstr "Username"
 
-#: .\app\forms.py:70
+#: .\app\forms.py:96
 msgid "E-pasts"
 msgstr "Email"
 
-#: .\app\forms.py:71
+#: .\app\forms.py:97
 msgid "Vārds"
 msgstr "First name"
 
-#: .\app\forms.py:72
+#: .\app\forms.py:98
 msgid "Uzvārds"
 msgstr "Last name"
 
@@ -163,7 +180,7 @@ msgstr "Register"
 msgid "Izveidot sludinājumu"
 msgstr "Create listing"
 
-#: .\app\templates\create_listing.html:20
+#: .\app\templates\create_listing.html:25
 msgid "Izveidot"
 msgstr "Create"
 
@@ -185,7 +202,7 @@ msgstr "Listing details"
 
 #: .\app\templates\listing_detail.html:17
 msgid "Auto informācija"
-msgstr "Vehicle details"
+msgstr "Vehicle information"
 
 #: .\app\templates\listing_detail.html:19
 msgid "Marka:"
@@ -205,7 +222,7 @@ msgstr "Fuel:"
 
 #: .\app\templates\listing_detail.html:23
 msgid "Motora tilpums:"
-msgstr "Displacement:"
+msgstr "Engine displacement:"
 
 #: .\app\templates\listing_detail.html:24
 msgid "Ātrumkārba:"
@@ -233,7 +250,7 @@ msgstr "Description:"
 
 #: .\app\templates\listing_detail.html:32
 msgid "Telefona nr:"
-msgstr "Phone number:"
+msgstr "Phone:"
 
 #: .\app\templates\listing_detail.html:33
 msgid "Epasts:"
@@ -241,11 +258,11 @@ msgstr "Email:"
 
 #: .\app\templates\listing_detail.html:37
 msgid "Bildes"
-msgstr "Images"
+msgstr "Image"
 
 #: .\app\templates\listing_detail.html:41
 msgid "Šim sludinājumaam nav pieejamu bilžu"
-msgstr "This listing has no images"
+msgstr "This listing has no image"
 
 #: .\app\templates\listing_list.html:5
 msgid "Visi sludinājumi"
@@ -293,7 +310,7 @@ msgstr "Year"
 
 #: .\app\templates\listing_list.html:53
 msgid "Secība"
-msgstr "Order"
+msgstr "Order by"
 
 #: .\app\templates\listing_list.html:54
 msgid "Augošā"
@@ -309,7 +326,7 @@ msgstr "Show only bookmarked"
 
 #: .\app\templates\listing_list.html:66
 msgid "Rādīt tikai savus"
-msgstr "Show only posted by me"
+msgstr "Show only mine"
 
 #: .\app\templates\listing_list.html:84
 msgid "Noņemt grāmatzīmi"
@@ -318,6 +335,10 @@ msgstr "Remove bookmark"
 #: .\app\templates\listing_list.html:86
 msgid "Ievietot grāmatzīmi"
 msgstr "Add bookmark"
+
+#: .\app\templates\listing_list.html:99
+msgid "Dzēst"
+msgstr "Delete"
 
 #: .\app\templates\listing_list.html:112
 msgid "Tilpums"
