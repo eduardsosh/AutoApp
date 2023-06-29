@@ -151,8 +151,13 @@ def listing_list(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    
-    bookmarked_listing_ids = Bookmark.objects.filter(user=request.user).values_list('listing_id', flat=True)
+
+    if request.user.is_authenticated:
+        bookmarked_listing_ids = Bookmark.objects.filter(user=request.user).values_list('listing_id', flat=True)
+    else:
+        bookmarked_listing_ids = []
+
+
 
     return render(
         request,

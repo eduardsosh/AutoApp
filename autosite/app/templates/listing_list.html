@@ -55,30 +55,38 @@
         <option value="desc" {% if request.GET.order == "desc" %}selected{% endif %}>Descending</option>
       </select>
       <br>
-      <input type="submit" value="Apply">
+      <input type="submit" value="Apply" id="apply-button">
       <input type="button" id="reset-button" value="Reset">
     </div>
-    <input type="checkbox" name="only_bookmarks" value="true" {% if request.GET.only_bookmarks %}checked{% endif %}>
-    <label for="only_bookmarks">Show only bookmarked listings</label>
+    {% if user.is_authenticated %}
+    <div class="bookmark-filter">
+      <input type="checkbox" name="only_bookmarks" value="true" {% if request.GET.only_bookmarks %}checked{% endif %}>
+      <label for="only_bookmarks">Show only bookmarked listings</label>
+    {% endif %}
+    </div>
   </form>
 
+  <!-- Listings -->
+  <div class="listings-class">
   {% for listing in listings %}
     <div class="listing_item">
       <div class="parent">
-        <div class="left-child">
-      <button class="bookmark" data-listing-id="{{ listing.id }}">
-        {% if listing.id in bookmarked_listing_ids %}
-          Unbookmark
-        {% else %}
-          Bookmark
-        {% endif %}
-      </button>
+        {% if user.is_authenticated %}
+      <div class="left-child">
+          <button class="bookmark" data-listing-id="{{ listing.id }}">
+              {% if listing.id in bookmarked_listing_ids %}
+                Unbookmark
+              {% else %}
+                Bookmark
+              {% endif %}
+          </button>
       </div>
       <div class="right-child">
-      {% if listing.id in bookmarked_listing_ids %}
-        <img id="bookmark-indicator-{{ listing.id }}" style="display: {% if listing.id in bookmarked_listing_ids %}block{% else %}none{% endif %}" src="/static/pngwing.com.png" alt="This listing is bookmarked">
-      {% endif %}
+          {% if listing.id in bookmarked_listing_ids %}
+            <img id="bookmark-indicator-{{ listing.id }}" style="display: {% if listing.id in bookmarked_listing_ids %}block{% else %}none{% endif %}" src="/static/pngwing.com.png" alt="This listing is bookmarked">
+          {% endif %}
       </div>
+    {% endif %}
       </div>
       <a href="{{ listing.Link }}" target="_blank" rel="noopener noreferrer">
         <h3>{{ listing.Car.Make }} {{ listing.Car.Model }}</h3>
@@ -101,6 +109,9 @@
 {% empty %}
     <p>{% trans "Nav atrasts neviens sludinājums" %}</p>
 {% endfor %}
+  </div>
+
+  <!-- Pagination -->
 
 <div class="pagination">
   <span class="step-links">
