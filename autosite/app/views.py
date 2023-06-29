@@ -45,56 +45,65 @@ def market(request):
 
 @login_required
 def create_listing(request):
-    form = ListingCreationForm(request.POST, request.FILES)
-    if form.is_valid():
-        car = Car.objects.create(
-            Make=form.cleaned_data['Make'],
-            Model=form.cleaned_data['Model'],
-            Year=form.cleaned_data['Year'],
-            Fuel=form.cleaned_data['Fuel'],
-            Engine_cc=form.cleaned_data['Engine_cc'],
-            Gearbox=form.cleaned_data['Gearbox'],
-            Color=form.cleaned_data['Color'],
-        )
+    if request.method == 'POST':
+        form = ListingCreationForm(request.POST, request.FILES)
+        if form.is_valid():
+            try:
+                car = Car.objects.create(
+                    Make=form.cleaned_data['Make'],
+                    Model=form.cleaned_data['Model'],
+                    Year=form.cleaned_data['Year'],
+                    Fuel=form.cleaned_data['Fuel'],
+                    Engine_cc=form.cleaned_data['Engine_cc'],
+                    Gearbox=form.cleaned_data['Gearbox'],
+                    Color=form.cleaned_data['Color'],
+                )
 
-        listing = Listing.objects.create(
-            Car=car,
-            Price=form.cleaned_data['Price'],
-            Mileage=form.cleaned_data['Mileage'],
-            Location="None",
-            Description=form.cleaned_data['Description'],
-            Phone=form.cleaned_data['Phone'],
-            Email=form.cleaned_data['Email'],
-            Name="None",
-            Link="",  # Initially set Link to an empty string
-            User=request.user,
-        )
+                listing = Listing.objects.create(
+                    Car=car,
+                    Price=form.cleaned_data['Price'],
+                    Mileage=form.cleaned_data['Mileage'],
+                    Location="None",
+                    Description=form.cleaned_data['Description'],
+                    Phone=form.cleaned_data['Phone'],
+                    Email=form.cleaned_data['Email'],
+                    Name="None",
+                    Link="",  # Initially set Link to an empty string
+                    User=request.user,
+                )
 
-        # Set Link to the URL of the listing
-        listing.Link = request.build_absolute_uri(listing.get_absolute_url())
-        listing.save()
+                # Set Link to the URL of the listing
+                listing.Link = request.build_absolute_uri(listing.get_absolute_url())
+                listing.save()
 
-        # Compress image
-        image = PilImage.open(form.cleaned_data['image'])
-        # Resize and save the image to a BytesIO object
-        image.thumbnail((800, 800), PilImage.ANTIALIAS)  # Resize the image in-place
-        temp_file = BytesIO()
-        image.save(temp_file, format='JPEG', quality=90)
-        temp_file.seek(0)
-        # Create a new Django file-like object to use in your model
-        compressed_image = File(temp_file, name=form.cleaned_data['image'].name)
+                # Compress image
+                image = PilImage.open(form.cleaned_data['image'])
+                # Resize and save the image to a BytesIO object
+                image.thumbnail((800, 800), PilImage.ANTIALIAS)  # Resize the image in-place
+                temp_file = BytesIO()
+                image.save(temp_file, format='JPEG', quality=90)
+                temp_file.seek(0)
+                # Create a new Django file-like object to use in your model
+                compressed_image = File(temp_file, name=form.cleaned_data['image'].name)
 
-        Image.objects.create(
-            listing=listing,
-            image=compressed_image,
-        )
+                Image.objects.create(
+                    listing=listing,
+                    image=compressed_image,
+                )
 
-        return redirect('listing_list')
+                return redirect('listing_list')
+
+            except Exception as e:
+                # Handle any potential errors here
+                print(e)
 
     else:
         form = ListingCreationForm()
 
-    return render(request, 'create_listing.html', {'form': form})
+    context = {
+        'form': form,
+    }
+    return render(request, 'create_listing.html', context)
 
 
 def listing_list(request):

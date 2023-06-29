@@ -1,3 +1,4 @@
+from datetime import date
 from django import forms
 from .models import Car, Listing, Image
 
@@ -15,7 +16,6 @@ class ListingCreationForm(forms.Form):
         ('elektrība', _('Elektrība')),
         ('benzīns/gāze', _('Benzīns/gāze')),
         ('hibrīds', _('Hibrīds'))
-        # Add more options here if necessary
     ]
 
     GEARBOX_CHOICES = [
@@ -35,14 +35,40 @@ class ListingCreationForm(forms.Form):
     Mileage = forms.IntegerField(label=_('Nobraukums'))
     Description = forms.CharField(widget=forms.Textarea, label=_('Apraksts'))
     Phone = forms.CharField(max_length=50, label=_('Tel. nr.'))
-    Email = forms.CharField(max_length=50, label=_('Epasts'))
+    Email = forms.EmailField(max_length=50, label=_('Epasts'))
     image = forms.ImageField(label=_('Attēls'))
 
-    def clean_price(self):
+    def clean_Price(self):
         price = self.cleaned_data.get('Price')
         if price is not None and price <= 0:
             raise forms.ValidationError(_('Cenai jābūt pozitīvam skaitlim!'))
         return price
+
+    def clean_Mileage(self):
+        mileage = self.cleaned_data.get('Mileage')
+        if mileage < 0:
+            raise forms.ValidationError(_("Nobraukums nevar būt negatīvs."))
+        return mileage
+    
+
+    def clean_Year(self):
+        year = self.cleaned_data.get('Year')
+        current_year = date.today().year
+        if year < 1900 or year > current_year + 1:
+            raise forms.ValidationError(_("Invalid year."))
+        return year
+    
+    def clean_Phone(self):
+        phone = self.cleaned_data.get('Phone')
+        if not phone.isdigit() or len(phone) != 8:
+            raise forms.ValidationError(_("Invalid phone number."))
+        return phone
+    
+    def clean_Engine_cc(self):
+        engine_cc = self.cleaned_data.get('Engine_cc')
+        if engine_cc < 0:
+            raise forms.ValidationError(_("Engine capacity cannot be negative."))
+        return engine_cc
 
 
 class RegistrationForm(UserCreationForm):
