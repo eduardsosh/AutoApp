@@ -57,17 +57,18 @@ class Command(BaseCommand):
         )
         listing.save()  # Insert the listing into the database
         
-        response = requests.get(car_data['image_src'], stream=True)
-        if response.status_code == 200:
-            image_name = car_data['image_src'].split('/')[-1]
-            image_path = default_storage.save('listing_images/' + image_name, ContentFile(response.content))
+        if car_data['image_src']:  # Check if 'image_src' is not None
+            response = requests.get(car_data['image_src'], stream=True)
+            if response.status_code == 200:
+                image_name = car_data['image_src'].split('/')[-1]
+                image_path = default_storage.save('listing_images/' + image_name, ContentFile(response.content))
 
-            # Create a new Image object
-            image = Image(
-                listing=listing,
-                image=image_path  # ImageField takes the path of the image relative to the media folder
-            )
-            image.save()  # Insert the image into the database
+                # Create a new Image object
+                image = Image(
+                    listing=listing,
+                    image=image_path  # ImageField takes the path of the image relative to the media folder
+                )
+                image.save()  # Insert the image into the database
 
     def get_car_data(self, url):
         response = requests.get(url)
