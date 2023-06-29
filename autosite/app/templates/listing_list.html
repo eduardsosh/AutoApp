@@ -10,17 +10,17 @@
   <form id="filter-sort-form" method="GET" action="{% url 'listing_list' %}">
     <div id="filter-sort-fields">
       <!-- Filter fields -->
-      <input type="text" name="q" placeholder="Search..." value="{{ request.GET.q }}">
-      <input type="number" name="min_price" placeholder="Min Price" value="{{ request.GET.min_price }}">
-      <input type="number" name="max_price" placeholder="Max Price" value="{{ request.GET.max_price }}">
+      <input type="text" name="q" placeholder={% trans "Meklēt..."%} value="{{ request.GET.q }}">
+      <input type="number" name="min_price" placeholder={% trans "Min_cena" %} value="{{ request.GET.min_price }}">
+      <input type="number" name="max_price" placeholder={% trans "Max_cena"%} value="{{ request.GET.max_price }}">
   
       <!-- Year range -->
-      <input type="number" name="min_year" placeholder="Min Year" value="{{ request.GET.min_year }}">
-      <input type="number" name="max_year" placeholder="Max Year" value="{{ request.GET.max_year }}">
+      <input type="number" name="min_year" placeholder={% trans "Min_gads"%} value="{{ request.GET.min_year }}">
+      <input type="number" name="max_year" placeholder={% trans "Max_gads"%} value="{{ request.GET.max_year }}">
   
       <!-- Fuel dropdown -->
       <select name="fuel">
-        <option value="" {% if not request.GET.fuel %}selected{% endif %}>{%trans"Degvielas tips"%}</option>
+        <option value="" {% if not request.GET.fuel %}selected{% endif %}>{% trans "Degvielas tips"%}</option>
         {% for fuel_option in fuel_options %}
           <option value="{{ fuel_option }}" {% if request.GET.fuel == fuel_option %}selected{% endif %}>{{ fuel_option }}</option>
         {% endfor %}
@@ -28,7 +28,7 @@
   
       <!-- Gearbox dropdown -->
       <select name="gearbox">
-        <option value="" {% if not request.GET.gearbox %}selected{% endif %}>{%trans"Ātrumkārba"%}</option>
+        <option value="" {% if not request.GET.gearbox %}selected{% endif %}>{% trans "Ātrumkārba"%}</option>
         {% for gearbox_option in gearbox_options %}
           <option value="{{ gearbox_option }}" {% if request.GET.gearbox == gearbox_option %}selected{% endif %}>{{ gearbox_option }}</option>
         {% endfor %}
@@ -36,7 +36,7 @@
   
       <!-- Color dropdown -->
       <select name="color">
-        <option value="" {% if not request.GET.color %}selected{% endif %}>{%trans"Krāsa"%}</option>
+        <option value="" {% if not request.GET.color %}selected{% endif %}>{% trans "Krāsa"%}</option>
         {% for color_option in color_options %}
           <option value="{{ color_option }}" {% if request.GET.color == color_option %}selected{% endif %}>{{ color_option }}</option>
         {% endfor %}
@@ -44,15 +44,15 @@
       <br>
       <!-- Sort fields -->
       <select name="sort_by">
-        <option value="" selected disabled>{%trans"Kārtot pēc"%}</option>
-        <option value="Price" {% if request.GET.sort_by == "Price" %}selected{% endif %}>{%trans"Cenas"%}</option>
-        <option value="Mileage" {% if request.GET.sort_by == "Mileage" %}selected{% endif %}>{%trans"Nobraukuma"%}</option>
-        <option value="Car__Year" {% if request.GET.sort_by == "Car__Year" %}selected{% endif %}>{%trans"Gada"%}</option>
+        <option value="" selected disabled>{% trans "Kārtot pēc"%}</option>
+        <option value="Price" {% if request.GET.sort_by == "Price" %}selected{% endif %}>{% trans "Cenas"%}</option>
+        <option value="Mileage" {% if request.GET.sort_by == "Mileage" %}selected{% endif %}>{% trans "Nobraukuma"%}</option>
+        <option value="Car__Year" {% if request.GET.sort_by == "Car__Year" %}selected{% endif %}>{% trans "Gada"%}</option>
       </select>
       <select name="order">
-        <option value="" selected disabled>{%trans"Secība"%}</option>
-        <option value="asc" {% if request.GET.order == "asc" %}selected{% endif %}>{%trans"Augošā"%}</option>
-        <option value="desc" {% if request.GET.order == "desc" %}selected{% endif %}>{%trans"Dilstošā"%}</option>
+        <option value="" selected disabled>{% trans "Secība"%}</option>
+        <option value="asc" {% if request.GET.order == "asc" %}selected{% endif %}>{% trans "Augošā"%}</option>
+        <option value="desc" {% if request.GET.order == "desc" %}selected{% endif %}>{% trans "Dilstošā"%}</option>
       </select>
       <br>
       <input type="submit" value="Apply" id="apply-button">

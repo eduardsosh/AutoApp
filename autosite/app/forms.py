@@ -38,18 +38,12 @@ class ListingCreationForm(forms.Form):
     Email = forms.CharField(max_length=50, label=_('Epasts'))
     image = forms.ImageField(label=_('Attēls'))
 
-    def clean(self):
-        cleaned_data = super().clean()
-        price = cleaned_data.get('Price')
-        mileage = cleaned_data.get('Mileage')
+    def clean_price(self):
+        price = self.cleaned_data.get('Price')
+        if price is not None and price <= 0:
+            raise forms.ValidationError(_('Price must be a positive number.'))
+        return price
 
-        if price and price <= 0:
-            self.add_error('Price', _('Cena jābūt pozitīvam skaitlim.'))
-
-        if mileage and mileage < 0:
-            self.add_error('Mileage', _('Nobraukums jābūt nenegatīvam skaitlim.'))
-
-        return cleaned_data
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True, label=_('Epasta adrese'))
