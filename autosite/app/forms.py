@@ -41,13 +41,13 @@ class ListingCreationForm(forms.Form):
     def clean_Price(self):
         price = self.cleaned_data.get('Price')
         if price is not None and price <= 0:
-            raise forms.ValidationError(_('Cenai jābūt pozitīvam skaitlim!'))
+            raise forms.ValidationError(_('Cenai jābūt pozitīvai!'))
         return price
 
     def clean_Mileage(self):
         mileage = self.cleaned_data.get('Mileage')
         if mileage < 0:
-            raise forms.ValidationError(_("Nobraukums nevar būt negatīvs."))
+            raise forms.ValidationError(_("Nobraukums nevar būt negatīvs!"))
         return mileage
     
 
@@ -55,19 +55,19 @@ class ListingCreationForm(forms.Form):
         year = self.cleaned_data.get('Year')
         current_year = date.today().year
         if year < 1900 or year > current_year + 1:
-            raise forms.ValidationError(_("Invalid year."))
+            raise forms.ValidationError(_("Nederīgs gads!"))
         return year
     
     def clean_Phone(self):
         phone = self.cleaned_data.get('Phone')
         if not phone.isdigit() or len(phone) != 8:
-            raise forms.ValidationError(_("Invalid phone number."))
+            raise forms.ValidationError(_("Nederīgs telefona numurs!"))
         return phone
     
     def clean_Engine_cc(self):
         engine_cc = self.cleaned_data.get('Engine_cc')
         if engine_cc < 0:
-            raise forms.ValidationError(_("Engine capacity cannot be negative."))
+            raise forms.ValidationError(_("Motora tilpums nevar būt negatīvs!"))
         return engine_cc
 
 
