@@ -292,3 +292,63 @@ input[type=number] {
 .listings-class{
  text-align: center;
 }
+.mylisting-container {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mylisting-container h1 {
+  color: #333333;
+  margin-top: 0;
+}
+
+.mylisting-container ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+
+.mylisting-container ul li {
+  margin-bottom: 10px;
+}
+
+.mylisting-container h2 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.mylisting-container .listing-image img {
+  width: auto;
+  height: 200px;
+  display: block;
+  margin: 10px auto;
+  object-fit: cover;
+  max-width: 100%;
+}
+
+.mylisting-container {
+  display: flex;
+  align-items: flex-start;
+}
+
+.mylisting-container .listing-text {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.mylisting-container .listing-image {
+  flex: 1;
+}
+
+.mylisting-container h1,
+.mylisting-container h2 {
+  text-align: left;
+}
+
+.mylisting-container .listing-image img {
+  width: 100%;
+  height: auto;
+}
