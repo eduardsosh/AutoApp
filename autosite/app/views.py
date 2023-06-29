@@ -78,10 +78,13 @@ def create_listing(request):
 
                 # Compress image
                 image = PilImage.open(form.cleaned_data['image'])
-                # Resize and save the image to a BytesIO object
-                image.thumbnail((800, 800), PilImage.ANTIALIAS)  # Resize the image in-place
+                # Resize while maintaining aspect ratio
+                image.thumbnail((800, 800), PilImage.ANTIALIAS)
+                # Convert to RGB for better web display
+                image = image.convert("RGB")
                 temp_file = BytesIO()
-                image.save(temp_file, format='JPEG', quality=90)
+                # Save the image to the BytesIO object with higher JPEG quality
+                image.save(temp_file, format='JPEG', quality=80)
                 temp_file.seek(0)
                 # Create a new Django file-like object to use in your model
                 compressed_image = File(temp_file, name=form.cleaned_data['image'].name)
@@ -104,7 +107,6 @@ def create_listing(request):
         'form': form,
     }
     return render(request, 'create_listing.html', context)
-
 
 def listing_list(request):
     query_params = request.GET.copy()
