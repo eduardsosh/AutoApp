@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-27 23:09+0300\n"
+"POT-Creation-Date: 2023-06-29 22:41+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,31 +53,31 @@ msgstr "Make"
 msgid "Modelis"
 msgstr "Model"
 
-#: .\app\forms.py:28
+#: .\app\forms.py:28 .\app\templates\listing_list.html:115
 msgid "Gads"
 msgstr "Year"
 
-#: .\app\forms.py:29
+#: .\app\forms.py:29 .\app\templates\listing_list.html:114
 msgid "Degviela"
-msgstr "Fuel type"
+msgstr "Fuel"
 
 #: .\app\forms.py:30
 msgid "Motora tilpums"
 msgstr "Displacement"
 
-#: .\app\forms.py:31
+#: .\app\forms.py:31 .\app\templates\listing_list.html:31
 msgid "Ātrumkārba"
 msgstr "Gearbox"
 
-#: .\app\forms.py:32
+#: .\app\forms.py:32 .\app\templates\listing_list.html:39
 msgid "Krāsa"
-msgstr "Color"
+msgstr "Colour"
 
-#: .\app\forms.py:34 .\app\templates\listing_list.html:11
+#: .\app\forms.py:34 .\app\templates\listing_list.html:108
 msgid "Cena"
 msgstr "Price"
 
-#: .\app\forms.py:35 .\app\templates\listing_list.html:12
+#: .\app\forms.py:35 .\app\templates\listing_list.html:109
 msgid "Nobraukums"
 msgstr "Milage"
 
@@ -87,7 +87,7 @@ msgstr "Description"
 
 #: .\app\forms.py:37
 msgid "Tel. nr."
-msgstr "Phone"
+msgstr "Phone number"
 
 #: .\app\forms.py:38
 msgid "Epasts"
@@ -97,39 +97,43 @@ msgstr "Email"
 msgid "Attēls"
 msgstr "Image"
 
-#: .\app\forms.py:42
+#: .\app\forms.py:44
+msgid "Cenai jābūt pozitīvam skaitlim!"
+msgstr "Price must be positive!"
+
+#: .\app\forms.py:49
 msgid "Epasta adrese"
 msgstr "Email"
 
-#: .\app\forms.py:45 .\app\forms.py:66
+#: .\app\forms.py:52 .\app\forms.py:73
 msgid "Parole"
 msgstr "Password"
 
-#: .\app\forms.py:48
-msgid "Ievadiet drošu paroli!"
-msgstr "Enter a safe password"
-
-#: .\app\forms.py:52 .\app\forms.py:67
-msgid "Parole vēlreiz"
-msgstr "Repeat your password"
-
 #: .\app\forms.py:55
-msgid "Ievadiet paroli vēlreiz!"
-msgstr "Repeat your password"
+msgid "Ievadiet drošu paroli!"
+msgstr "Enter a secure password!"
+
+#: .\app\forms.py:59 .\app\forms.py:74
+msgid "Parole vēlreiz"
+msgstr "Password again"
 
 #: .\app\forms.py:62
+msgid "Ievadiet paroli vēlreiz!"
+msgstr "Enter the password again!"
+
+#: .\app\forms.py:69
 msgid "Lietotājvārds"
 msgstr "Username"
 
-#: .\app\forms.py:63
+#: .\app\forms.py:70
 msgid "E-pasts"
 msgstr "Email"
 
-#: .\app\forms.py:64
+#: .\app\forms.py:71
 msgid "Vārds"
 msgstr "First name"
 
-#: .\app\forms.py:65
+#: .\app\forms.py:72
 msgid "Uzvārds"
 msgstr "Last name"
 
@@ -139,31 +143,31 @@ msgstr "Listings"
 
 #: .\app\templates\base_generic.html:28 .\app\templates\base_generic.html:30
 msgid "Ielikt sludinājumu"
-msgstr "Create a listing"
+msgstr "Create listing"
 
 #: .\app\templates\base_generic.html:40
 msgid "Iziet"
-msgstr "Sign out"
+msgstr "Log out"
 
-#: .\app\templates\base_generic.html:47 .\app\templates\login.html:4
-#: .\app\templates\login.html:8
+#: .\app\templates\base_generic.html:47 .\app\templates\login.html:7
+#: .\app\templates\login.html:11
 msgid "Ieiet"
 msgstr "Log in"
 
-#: .\app\templates\base_generic.html:50 .\app\templates\register.html:4
-#: .\app\templates\register.html:20
+#: .\app\templates\base_generic.html:50 .\app\templates\register.html:7
+#: .\app\templates\register.html:22
 msgid "Reģistrēties"
 msgstr "Register"
 
-#: .\app\templates\create_listing.html:6
+#: .\app\templates\create_listing.html:7
 msgid "Izveidot sludinājumu"
-msgstr "Create a listing"
+msgstr "Create listing"
 
-#: .\app\templates\create_listing.html:10
+#: .\app\templates\create_listing.html:20
 msgid "Izveidot"
 msgstr "Create"
 
-#: .\app\templates\edit_profile.html:5 .\app\templates\edit_profile.html:8
+#: .\app\templates\edit_profile.html:4 .\app\templates\edit_profile.html:9
 msgid "Rediģēt profilu"
 msgstr "Edit profile"
 
@@ -175,33 +179,181 @@ msgstr "Change"
 msgid "Augšuplādēt"
 msgstr "Upload"
 
-#: .\app\templates\listing_list.html:4
+#: .\app\templates\listing_detail.html:16
+msgid "Sludinājuma detaļas"
+msgstr "Listing details"
+
+#: .\app\templates\listing_detail.html:17
+msgid "Auto informācija"
+msgstr "Vehicle details"
+
+#: .\app\templates\listing_detail.html:19
+msgid "Marka:"
+msgstr "Make:"
+
+#: .\app\templates\listing_detail.html:20
+msgid "Modelis:"
+msgstr "Model:"
+
+#: .\app\templates\listing_detail.html:21
+msgid "Gads:"
+msgstr "Year:"
+
+#: .\app\templates\listing_detail.html:22
+msgid "Degviela:"
+msgstr "Fuel:"
+
+#: .\app\templates\listing_detail.html:23
+msgid "Motora tilpums:"
+msgstr "Displacement:"
+
+#: .\app\templates\listing_detail.html:24
+msgid "Ātrumkārba:"
+msgstr "Gearbox:"
+
+#: .\app\templates\listing_detail.html:25
+msgid "Krāsa:"
+msgstr "Colour:"
+
+#: .\app\templates\listing_detail.html:27
+msgid "Informācija sludinājumā"
+msgstr "Listing information"
+
+#: .\app\templates\listing_detail.html:29
+msgid "Cena:"
+msgstr "Price:"
+
+#: .\app\templates\listing_detail.html:30
+msgid "Nobraukums:"
+msgstr "Milage:"
+
+#: .\app\templates\listing_detail.html:31
+msgid "Apraksts:"
+msgstr "Description:"
+
+#: .\app\templates\listing_detail.html:32
+msgid "Telefona nr:"
+msgstr "Phone number:"
+
+#: .\app\templates\listing_detail.html:33
+msgid "Epasts:"
+msgstr "Email:"
+
+#: .\app\templates\listing_detail.html:37
+msgid "Bildes"
+msgstr "Images"
+
+#: .\app\templates\listing_detail.html:41
+msgid "Šim sludinājumaam nav pieejamu bilžu"
+msgstr "This listing has no images"
+
+#: .\app\templates\listing_list.html:5
 msgid "Visi sludinājumi"
 msgstr "All listings"
 
+#: .\app\templates\listing_list.html:13
+msgid "Meklēt..."
+msgstr "Search..."
+
+#: .\app\templates\listing_list.html:14
+msgid "Min_cena"
+msgstr "Min_price"
+
+#: .\app\templates\listing_list.html:15
+msgid "Max_cena"
+msgstr "Max_price"
+
+#: .\app\templates\listing_list.html:18
+msgid "Min_gads"
+msgstr "Min_year"
+
+#: .\app\templates\listing_list.html:19
+msgid "Max_gads"
+msgstr "Max_year"
+
 #: .\app\templates\listing_list.html:23
+msgid "Degvielas tips"
+msgstr "Fuel type"
+
+#: .\app\templates\listing_list.html:47
+msgid "Kārtot pēc"
+msgstr "Sort by"
+
+#: .\app\templates\listing_list.html:48
+msgid "Cenas"
+msgstr "Price"
+
+#: .\app\templates\listing_list.html:49
+msgid "Nobraukuma"
+msgstr "Milage"
+
+#: .\app\templates\listing_list.html:50
+msgid "Gada"
+msgstr "Year"
+
+#: .\app\templates\listing_list.html:53
+msgid "Secība"
+msgstr "Order"
+
+#: .\app\templates\listing_list.html:54
+msgid "Augošā"
+msgstr "Ascending"
+
+#: .\app\templates\listing_list.html:55
+msgid "Dilstošā"
+msgstr "Descending"
+
+#: .\app\templates\listing_list.html:64
+msgid "Rādīt tikai atzīmētos"
+msgstr "Show only bookmarked"
+
+#: .\app\templates\listing_list.html:66
+msgid "Rādīt tikai savus"
+msgstr "Show only posted by me"
+
+#: .\app\templates\listing_list.html:84
+msgid "Noņemt grāmatzīmi"
+msgstr "Remove bookmark"
+
+#: .\app\templates\listing_list.html:86
+msgid "Ievietot grāmatzīmi"
+msgstr "Add bookmark"
+
+#: .\app\templates\listing_list.html:112
+msgid "Tilpums"
+msgstr "Displacement"
+
+#: .\app\templates\listing_list.html:113
+msgid "Pārnesums"
+msgstr "Gearbox"
+
+#: .\app\templates\listing_list.html:125
 msgid "Nav atrasts neviens sludinājums"
 msgstr "No listings found"
 
-#: .\app\templates\listing_list.html:34
+#: .\app\templates\listing_list.html:134
 msgid "Pirmā"
 msgstr "First"
 
-#: .\app\templates\listing_list.html:35 .\app\templates\listing_list.html:44
+#: .\app\templates\listing_list.html:135
 msgid "Iepriekšējā"
 msgstr "Previous"
 
-#: .\app\templates\listing_list.html:39
+#: .\app\templates\listing_list.html:139
 msgid "Lapa"
 msgstr "Page"
 
-#: .\app\templates\listing_list.html:39
+#: .\app\templates\listing_list.html:139
 msgid "no"
 msgstr "of"
 
-#: .\app\templates\listing_list.html:43
+#: .\app\templates\listing_list.html:143
 msgid "Nākamā"
 msgstr "Next"
+
+#: .\app\templates\listing_list.html:144
+msgid "Pēdējā"
+msgstr "Last"
 
 #: .\autosite\settings.py:130
 msgid "Latvian"

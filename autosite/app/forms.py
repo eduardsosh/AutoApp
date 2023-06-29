@@ -41,7 +41,7 @@ class ListingCreationForm(forms.Form):
     def clean_price(self):
         price = self.cleaned_data.get('Price')
         if price is not None and price <= 0:
-            raise forms.ValidationError(_('Price must be a positive number.'))
+            raise forms.ValidationError(_('Cenai jābūt pozitīvam skaitlim!'))
         return price
 
 
