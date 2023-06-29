@@ -7,16 +7,21 @@
       <h2>{% trans "Izveidot sludinājumu" %}</h2>
       <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {% if form.errors and form.errors.Price %}
-          <div class="errors">
-            <ul>
-              {% for error in form.errors.Price %}
-                <li>{{ error }}</li>
+        {% for field in form %}
+          <div class="form-field">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+          </div>
+        {% endfor %}
+        {% if form.errors %}
+          <div class="error-container">
+            {% for field in form %}
+              {% for error in field.errors %}
+                <p class="error">{{ error }}</p>
               {% endfor %}
-            </ul>
+            {% endfor %}
           </div>
         {% endif %}
-        {{ form.as_p }}
         <button type="submit">{% trans "Izveidot" %}</button>
       </form>
     </div>
