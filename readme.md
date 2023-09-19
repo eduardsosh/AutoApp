@@ -11,7 +11,7 @@
 -Clone repo <br>
 -Create a venv in `\AutoApp` using `python -m venv .`<br>
 -Run venv using `\Scripts\activate.bat` <br>
--Run `pip install -r requirments.txt` <br>
+-Run `pip install -r requirements.txt` <br>
 
 ###### We now have all the files 
 In `AutoApp\autosite\` run `python manage.py --migrate`
